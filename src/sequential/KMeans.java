@@ -13,7 +13,8 @@ public class KMeans {
 		// create clusters
 		for (int i = 0; i < k; i++) {
 			Cluster cluster = new Cluster();
-			// cluster.add(centroids.get(i));
+			cluster.setCentroid(points.get(new Random().nextInt(points
+							.size())));
 			clusters.add(cluster);
 		}
 
@@ -29,18 +30,14 @@ public class KMeans {
 
 				for (Cluster cluster : clusters) {
 
-					Point clusterMean = points.get(new Random().nextInt(points
-							.size()));
-					if (i > 0) {
-						clusterMean = cluster.getCentroid();
-					}
+					Point clusterMean = cluster.getCentroid();
 
 					double distance = calculateDistance(p, clusterMean);
 					// System.out.println("distance is: " + distance);
-					if (distance < savedDistance) {
+					if (distance <= savedDistance) {
 						nearestCluster = cluster;
+						savedDistance = distance;
 					}
-					savedDistance = distance;
 				}
 				// assign point to cluster
 				// TODO: catch nullpointer

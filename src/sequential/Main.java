@@ -17,7 +17,7 @@ public class Main {
 		points.add(new Point(r.nextDouble(), r.nextDouble()));
 		// printPoints();
 		}
-		kmeans.run(points, 2);
+		kmeans.run(points, 8);
 	}
 
 	
