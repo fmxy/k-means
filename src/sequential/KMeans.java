@@ -67,6 +67,7 @@ public class KMeans {
 	}
 
 	public double calculateDistance(Point p, Point c) {
+		// Math.sqrt returns POSITIVE rounded square root
 		return Math.sqrt(sq(p.getX() - c.getX()) + sq(p.getY() - c.getY()));
 	}
 

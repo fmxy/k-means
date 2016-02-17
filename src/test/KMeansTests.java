@@ -29,8 +29,8 @@ public class KMeansTests {
 		kmeans.run(points, 8);
 	}
 
-	// check if distance from cluster points to cluster centroid is minimal
-	// compared to other cluster centroids
+	/* check if distance from cluster points to cluster centroid is minimal
+	compared to other cluster centroids */
 	@Test
 	public void clusterPointsBelongToCentroid() {
 		Boolean fail=false;
