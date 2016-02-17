@@ -6,9 +6,11 @@ import java.util.Random;
 
 public class KMeans {
 
+	private List<Cluster> clusters = new ArrayList<Cluster>();
+
+
 	public void run(List<Point> points, int k) {
 
-		List<Cluster> clusters = new ArrayList<Cluster>();
 
 		// create clusters
 		for (int i = 0; i < k; i++) {
@@ -64,12 +66,16 @@ public class KMeans {
 
 	}
 
-	private double calculateDistance(Point p, Point c) {
+	public double calculateDistance(Point p, Point c) {
 		return Math.sqrt(sq(p.getX() - c.getX()) + sq(p.getY() - c.getY()));
 	}
 
-	private double sq(double x) {
+	public double sq(double x) {
 		return x * x;
+	}
+
+	public List<Cluster> getClusters() {
+		return clusters;
 	}
 
 }
