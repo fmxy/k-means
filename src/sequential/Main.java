@@ -9,7 +9,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		KMeans kmeans = new KMeans();
+		KMeans sequentialKMeans = new KMeans();
+		ParallelKMeans parallelKMeans = new ParallelKMeans();
+		
 		Random r = new Random();
 		
 		
@@ -17,7 +19,22 @@ public class Main {
 		points.add(new Point(r.nextDouble(), r.nextDouble()));
 		// printPoints();
 		}
-		kmeans.run(points, 8);
+		
+		// very simple form of time measurement (doesn't measure initialization phase, as well)
+		
+		// sequential
+		long start_s = System.currentTimeMillis();
+		sequentialKMeans.run(points, 8);
+		long time_s = System.currentTimeMillis() - start_s;
+		
+		
+		// parallel (thread-based)
+		long start_p = System.currentTimeMillis();
+		parallelKMeans.run(points, 8);
+		long time_p = System.currentTimeMillis() - start_p;
+		
+		System.out.println("The sequential algorithm ran " + time_s + " milli seconds");
+		System.out.println("The parallel algorithm ran " + time_p + " milli seconds");
 	}
 
 	
