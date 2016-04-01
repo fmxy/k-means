@@ -66,8 +66,14 @@ public class KMeans {
 
 	}
 
+	/**
+	 * calculates the euclidean distance between two data points, used for selection of nearest centroid 
+	 * @param p Point 1
+	 * @param c Point 2
+	 * @return positive rounded distance value
+	 */
 	public double calculateDistance(Point p, Point c) {
-		// Math.sqrt returns POSITIVE rounded square root
+		// Math.sqrt returns POSITIVE rounded(!) square root
 		return Math.sqrt(sq(p.getX() - c.getX()) + sq(p.getY() - c.getY()));
 	}
 

@@ -6,6 +6,11 @@ public class Point {
 	double x;
 	double y;
 	
+	/** 
+	 * two-dimensional data point, consisting of:
+	 * @param x first value
+	 * @param y second value
+	 */
 	public Point(double x, double y){
 		this.x=x;
 		this.y=y;

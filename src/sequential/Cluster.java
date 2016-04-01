@@ -8,6 +8,9 @@ public class Cluster {
 	private Point centroid;
 	private List<Point> points = new ArrayList<Point>();
 	
+	/**
+	 * calculates cluster mean and assigns it to centroid variable
+	 */
 	public void updateCentroid() {
 		double xsum = 0;
 		double ysum = 0;
