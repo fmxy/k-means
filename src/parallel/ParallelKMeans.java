@@ -29,16 +29,13 @@ public class ParallelKMeans extends KMeans {
 		for (int i = 0; i < iterations; i++) {
 
 			ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-			for (int z = 0; z < points.size(); z++){
-				// create Runnable/Callable that calculates closest cluster centroid
-			}
-			
-			
-			
 			
 			// for all datapoints calculate distance to centers
 			for (Point p : points) {
 
+				// create Runnable/Callable that calculates closest cluster centroid
+				DistanceCalculationCallable callable = new DistanceCalculationCallable(p , clusters);
+				
 				// ugly
 				double savedDistance = 100;
 				Cluster nearestCluster = null;
