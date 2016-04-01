@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import parallel.ParallelKMeans;
+
 public class Main {
 	static List <Point> points = new ArrayList<Point>();
 

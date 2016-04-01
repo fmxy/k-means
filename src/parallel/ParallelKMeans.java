@@ -1,8 +1,14 @@
-package sequential;
+package parallel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import sequential.Cluster;
+import sequential.KMeans;
+import sequential.Point;
 
 // maybe change to interface
 public class ParallelKMeans extends KMeans {
@@ -22,6 +28,14 @@ public class ParallelKMeans extends KMeans {
 		int iterations = 10;
 		for (int i = 0; i < iterations; i++) {
 
+			ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+			for (int z = 0; z < points.size(); z++){
+				// create Runnable/Callable that calculates closest cluster centroid
+			}
+			
+			
+			
+			
 			// for all datapoints calculate distance to centers
 			for (Point p : points) {
 
