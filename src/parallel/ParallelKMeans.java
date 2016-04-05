@@ -3,8 +3,10 @@ package parallel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import sequential.Cluster;
 import sequential.KMeans;
@@ -14,47 +16,44 @@ import sequential.Point;
 public class ParallelKMeans extends KMeans {
 
 	private List<Cluster> clusters = new ArrayList<Cluster>();
+	private int index;
+	
+	int iterations = 100000;
 
 	// TODO: parallelize distance calculation
 	public void run(List<Point> points, int k) {
 
-		// create clusters
-		for (int i = 0; i < k; i++) {
-			Cluster cluster = new Cluster();
-			cluster.setCentroid(points.get(new Random().nextInt(points.size())));
-			clusters.add(cluster);
-		}
+		createAndInitializeClusters(points, k);
 
-		int iterations = 10;
+		ExecutorService executor = Executors.newFixedThreadPool(Runtime
+				.getRuntime().availableProcessors());
+
 		for (int i = 0; i < iterations; i++) {
 
-			ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-			
+
 			// for all datapoints calculate distance to centers
 			for (Point p : points) {
 
-				// create Runnable/Callable that calculates closest cluster centroid
-				DistanceCalculationCallable callable = new DistanceCalculationCallable(p , clusters);
-				
-				// ugly
-				double savedDistance = 100;
-				Cluster nearestCluster = null;
-				
-				for (Cluster cluster : clusters) {
+				// create Runnable/Callable that calculates closest cluster
+				// centroid
+				DistanceCalculationCallable callable = new DistanceCalculationCallable(
+						p, clusters);
 
-					Point clusterMean = cluster.getCentroid();
-
-					double distance = calculateDistance(p, clusterMean);
-					// System.out.println("distance is: " + distance);
-					if (distance <= savedDistance) {
-						nearestCluster = cluster;
-						savedDistance = distance;
-					}
+				Future<List<Cluster>> future = executor.submit(callable);
+				try {
+					clusters = future.get();
+				} catch (InterruptedException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
 				}
+				
 				// assign point to cluster
 				// TODO: catch nullpointer
-				nearestCluster.addPoint(p);
 			}
+			
 			for (Cluster cluster : clusters) {
 				cluster.updateCentroid();
 				if (i < iterations - 1) {
@@ -62,16 +61,32 @@ public class ParallelKMeans extends KMeans {
 				}
 			}
 		}
-
 		// output
 		for (Cluster cluster : clusters) {
-			System.out.println("This cluster contains " + cluster.getPoints().size() + " elements.");
+			System.out.println("This cluster contains "
+					+ cluster.getPoints().size() + " elements.");
 			System.out.println("Its elements are:");
 			for (Point p : cluster.getPoints()) {
 				System.out.println(p.toString());
 			}
 			System.out.println("");
 		}
-
+		
+		// TODO: see if additional check is needed
+		executor.shutdown();
 	}
+
+	/**
+	 * Create clusters with random data point as initial centroid
+	 * @param points data points to process
+	 * @param k amount of clusters
+	 */
+	private void createAndInitializeClusters(List<Point> points, int k) {
+		for (int i = 0; i < k; i++) {
+			Cluster cluster = new Cluster();
+			cluster.setCentroid(points.get(new Random().nextInt(points.size())));
+			clusters.add(cluster);
+		}
+	}
+
 }

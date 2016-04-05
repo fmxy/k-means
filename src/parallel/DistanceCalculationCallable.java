@@ -10,7 +10,7 @@ import sequential.Point;
  * calculates distance from a point to each cluster and returns nearest cluster
  *
  */
-public class DistanceCalculationCallable implements Callable<Cluster> {
+public class DistanceCalculationCallable implements Callable<List<Cluster>> {
 
 	private Point p;
 	private List<Cluster> clusters;
@@ -20,14 +20,25 @@ public class DistanceCalculationCallable implements Callable<Cluster> {
 		this.clusters = clusters;
 	}
 
-
 	@Override
-	public Cluster call() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Cluster> call(){
+		double savedDistance = 1000000;
+		Cluster nearestCluster = null;
+
+		for (Cluster cluster : clusters) {
+
+			Point clusterMean = cluster.getCentroid();
+
+			double distance = calculateDistance(p, clusterMean);
+			// System.out.println("distance is: " + distance);
+			if (distance <= savedDistance) {
+				nearestCluster = cluster;
+				savedDistance = distance;
+			}
+		}
+		nearestCluster.addPoint(p);
+		return clusters;
 	}
-
-
 
 	public double calculateDistance(Point p, Point c) {
 		// Math.sqrt returns POSITIVE rounded(!) square root
