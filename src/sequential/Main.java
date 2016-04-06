@@ -17,12 +17,13 @@ public class Main {
 		Random r = new Random();
 		
 		
-		for(int i=0; i<100 ;i++){
+		for(int i=0; i<100000 ;i++){
 		points.add(new Point(r.nextDouble(), r.nextDouble()));
 		// printPoints();
 		}
 		
 		// very simple form of time measurement (doesn't measure initialization phase, as well)
+		// beware of JVM cashing
 		
 		// sequential
 		long start_s = System.currentTimeMillis();

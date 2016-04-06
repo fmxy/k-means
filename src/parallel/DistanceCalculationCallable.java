@@ -36,6 +36,8 @@ public class DistanceCalculationCallable implements Callable<List<Cluster>> {
 				savedDistance = distance;
 			}
 		}
+		
+		// assigning point to cluster
 		nearestCluster.addPoint(p);
 		return clusters;
 	}
