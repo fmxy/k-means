@@ -9,9 +9,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import sequential.Cluster;
+import main.Cluster;
+import main.Point;
 import sequential.KMeans;
-import sequential.Point;
 
 // maybe change to interface
 public class ParallelKMeans extends KMeans {

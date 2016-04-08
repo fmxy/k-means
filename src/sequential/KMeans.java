@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import main.Cluster;
+import main.Point;
+
 public class KMeans {
 
 	// TODO: implement strategy pattern for use of different data structures

@@ -3,8 +3,8 @@ package parallel;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import sequential.Cluster;
-import sequential.Point;
+import main.Cluster;
+import main.Point;
 
 /**
  * calculates distance from a point to each cluster and returns nearest cluster

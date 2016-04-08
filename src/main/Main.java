@@ -1,10 +1,11 @@
-package sequential;
+package main;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import parallel.ParallelKMeans;
+import sequential.KMeans;
 
 public class Main {
 	static List<Point> points = new ArrayList<Point>();
@@ -24,6 +25,7 @@ public class Main {
 		// very simple form of time measurement (doesn't measure initialization
 		// phase, as well)
 		// beware of JVM cashing
+		// TODO: adapt JVM parameters
 
 		// sequential
 		long start_s = System.currentTimeMillis();

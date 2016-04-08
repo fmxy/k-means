@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
-import sequential.Cluster;
+import main.Cluster;
+import main.Point;
 import sequential.KMeans;
-import sequential.Point;
 
 public class ForkJoinKMeans extends KMeans {
 

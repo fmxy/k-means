@@ -9,10 +9,10 @@ import java.util.Random;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import main.Cluster;
+import main.Point;
 import parallel.ParallelKMeans;
-import sequential.Cluster;
 import sequential.KMeans;
-import sequential.Point;
 
 public class KMeansTests {
 

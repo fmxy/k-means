@@ -1,4 +1,4 @@
-package sequential;
+package main;
 
 public class Point {
 	
