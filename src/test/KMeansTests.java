@@ -9,6 +9,7 @@ import java.util.Random;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import parallel.ParallelKMeans;
 import sequential.Cluster;
 import sequential.KMeans;
 import sequential.Point;
@@ -16,10 +17,12 @@ import sequential.Point;
 public class KMeansTests {
 
 	static KMeans kmeans = new KMeans();
+	static ParallelKMeans pkmeans = new ParallelKMeans();
+	static List<Point> points = new ArrayList<Point>();
+	final int k = 8;
 
 	@BeforeClass
 	public static void setupBeforeClass() {
-		final List<Point> points = new ArrayList<Point>();
 		Random r = new Random();
 
 		for (int i = 0; i < 100; i++) {
@@ -27,6 +30,21 @@ public class KMeansTests {
 			// printPoints();
 		}
 		kmeans.run(points, 8);
+		pkmeans.run(points, 8);
+	}
+
+	@Test
+	public void amountOfClustersIsK() {
+		assertTrue(kmeans.getClusters().size() == k);
+	}
+
+	@Test
+	public void allDataPointsAreInACluster() {
+		int n = 0;
+		for (Cluster cluster : kmeans.getClusters()) {
+			n += cluster.getPoints().size();
+		}
+		assertTrue(points.size() == n);
 	}
 
 	/*
@@ -63,6 +81,19 @@ public class KMeansTests {
 
 		// assertEquals is deprecated
 		assertTrue(kmeans.calculateDistance(p1, p2) == kmeans.calculateDistance(p2, p1));
+	}
+
+	// TODO: fill test logic
+	// @Test
+	public void parallelKMeansProducesSameSolutionAsSequentialKMeans() {
+		Boolean fail = false;
+		List<Cluster> sclusters = kmeans.getClusters();
+		List<Cluster> pclusters = pkmeans.getClusters();
+
+		// check if points are in the same cluster
+
+		assertTrue(!fail);
+
 	}
 
 }
