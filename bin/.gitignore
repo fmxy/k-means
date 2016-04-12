@@ -1,6 +1,4 @@
-/test/
-/sequential/
-/forkjoin/
 /main/
+/sequential/
 /parallel/
-/util/
+/test/

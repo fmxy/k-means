@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +20,21 @@ public class KMeansTests {
 	static KMeans kmeans = new KMeans();
 	static ParallelKMeans pkmeans = new ParallelKMeans();
 	static List<Point> points = new ArrayList<Point>();
-	final int k = 8;
+
+	static int n = 100;
+	static int iterations = 100;
+	static int k = 10;
 
 	@BeforeClass
 	public static void setupBeforeClass() {
 		Random r = new Random();
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < n; i++) {
 			points.add(new Point(r.nextDouble(), r.nextDouble()));
 			// printPoints();
 		}
-		kmeans.run(points, 8);
-		pkmeans.run(points, 8);
+		kmeans.run(points, k, iterations);
+		pkmeans.run(points, k, iterations);
 	}
 
 	@Test

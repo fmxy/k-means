@@ -1,6 +1,6 @@
 package sequential;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -10,9 +10,9 @@ import main.Point;
 public class KMeans {
 
 	// TODO: implement strategy pattern for use of different data structures
-	private List<Cluster> clusters = new ArrayList<Cluster>();
+	private List<Cluster> clusters = new LinkedList<Cluster>();
 
-	public void run(List<Point> points, int k) {
+	public void run(List<Point> points, int k, int iterations) {
 
 		// create clusters
 		for (int i = 0; i < k; i++) {
@@ -21,8 +21,9 @@ public class KMeans {
 			clusters.add(cluster);
 		}
 
-		int iterations = 10;
-		for (int i = 0; i < iterations; i++) {
+		for (int i = 1; i <= iterations; i++) {
+
+			System.out.println("Iteration " + i + "/" + iterations);
 
 			// for all datapoints calculate distance to centers
 			for (Point p : points) {

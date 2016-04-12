@@ -17,25 +17,23 @@ import sequential.KMeans;
 public class ParallelKMeans extends KMeans {
 
 	private List<Cluster> clusters = new ArrayList<Cluster>();
-	private int index;
 
-	int iterations = 10;
-
-	public void run(List<Point> points, int k) {
+	public void run(List<Point> points, int k, int iterations) {
 
 		createAndInitializeClusters(points, k);
 
-		ExecutorService executor = Executors.newFixedThreadPool(Runtime
-				.getRuntime().availableProcessors());
+		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-		for (int i = 0; i < iterations; i++) {
+		for (int i = 1; i <= iterations; i++) {
+
+			System.out.println("Iteration " + i + "/" + iterations);
 
 			// for all datapoints calculate distance to centers
 			for (Point p : points) {
 
-				// create Callable that calculates Distances to cluster centroids
-				DistanceCalculationCallable callable = new DistanceCalculationCallable(
-						p, clusters);
+				// create Callable that calculates Distances to cluster
+				// centroids
+				DistanceCalculationCallable callable = new DistanceCalculationCallable(p, clusters);
 
 				Future<List<Cluster>> future = executor.submit(callable);
 				try {
@@ -59,8 +57,7 @@ public class ParallelKMeans extends KMeans {
 		}
 		// output
 		for (Cluster cluster : clusters) {
-			System.out.println("This cluster contains "
-					+ cluster.getPoints().size() + " elements.");
+			System.out.println("This cluster contains " + cluster.getPoints().size() + " elements.");
 			System.out.println("Its elements are:");
 			for (Point p : cluster.getPoints()) {
 				System.out.println(p.toString());
@@ -70,9 +67,10 @@ public class ParallelKMeans extends KMeans {
 
 		executor.shutdown();
 		try {
-			  executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-			} catch (InterruptedException e) {
-	}}
+			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		}
+	}
 
 	/**
 	 * Create clusters with random data point as initial centroid
