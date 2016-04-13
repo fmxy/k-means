@@ -21,7 +21,7 @@ public class DistanceCalculationCallable implements Callable<List<Cluster>> {
 	}
 
 	@Override
-	public List<Cluster> call(){
+	public List<Cluster> call() {
 		double savedDistance = 1000000;
 		Cluster nearestCluster = null;
 
@@ -36,7 +36,7 @@ public class DistanceCalculationCallable implements Callable<List<Cluster>> {
 				savedDistance = distance;
 			}
 		}
-		
+
 		// assigning point to cluster
 		nearestCluster.addPoint(p);
 		return clusters;

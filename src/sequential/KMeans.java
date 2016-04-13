@@ -49,7 +49,7 @@ public class KMeans {
 			}
 			for (Cluster cluster : clusters) {
 				cluster.updateCentroid();
-				if (i < iterations - 1) {
+				if (i < iterations) {
 					cluster.clearPoints();
 				}
 			}

@@ -44,11 +44,12 @@ public class KMeansTests {
 
 	@Test
 	public void allDataPointsAreInACluster() {
-		int n = 0;
+		int count = 0;
 		for (Cluster cluster : kmeans.getClusters()) {
-			n += cluster.getPoints().size();
+			count += cluster.getPoints().size();
 		}
-		assertTrue(points.size() == n);
+		System.out.println("There are " + points.size() + " data points and " + count + " cluster elements");
+		assertTrue(points.size() == count);
 	}
 
 	/*

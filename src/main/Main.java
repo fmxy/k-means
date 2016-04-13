@@ -11,7 +11,7 @@ public class Main {
 	static List<Point> points = new LinkedList<Point>();
 
 	// number of data points
-	static int n = 10000;
+	static int n = 100;
 	static int k = 10;
 	static int iterations = 100;
 
