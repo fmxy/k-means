@@ -12,13 +12,12 @@ import org.junit.Test;
 
 import main.Cluster;
 import main.Point;
-import parallel.ParallelKMeans;
 import sequential.KMeans;
+import util.RunStrategy;
 
 public class KMeansTests {
 
 	static KMeans kmeans = new KMeans();
-	static ParallelKMeans pkmeans = new ParallelKMeans();
 	static List<Point> points = new ArrayList<Point>();
 
 	static int n = 100;
@@ -33,8 +32,8 @@ public class KMeansTests {
 			points.add(new Point(r.nextDouble(), r.nextDouble()));
 			// printPoints();
 		}
-		kmeans.run(points, k, iterations);
-		pkmeans.run(points, k, iterations);
+		kmeans.run(points, k, iterations, RunStrategy.SEQUENTIAL);
+		// kmeans.run(points, k, iterations, RunStrategy.PARALLEL);
 	}
 
 	@Test
@@ -92,8 +91,6 @@ public class KMeansTests {
 	// @Test
 	public void parallelKMeansProducesSameSolutionAsSequentialKMeans() {
 		Boolean fail = false;
-		List<Cluster> sclusters = kmeans.getClusters();
-		List<Cluster> pclusters = pkmeans.getClusters();
 
 		// check if points are in the same cluster
 

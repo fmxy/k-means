@@ -3,23 +3,48 @@ package sequential;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import main.Cluster;
 import main.Point;
+import parallel.DistanceCalculationCallable;
+import util.RunStrategy;
 
 public class KMeans {
 
-	// TODO: implement strategy pattern for use of different data structures
 	private List<Cluster> clusters = new LinkedList<Cluster>();
 
-	public void run(List<Point> points, int k, int iterations) {
+	// central method that runs the algorithm in a specific pattern according to
+	// the chosen strategy
+	public void run(List<Point> points, int k, int iterations, RunStrategy strategy) {
 
-		// create clusters
-		for (int i = 0; i < k; i++) {
-			Cluster cluster = new Cluster();
-			cluster.setCentroid(points.get(new Random().nextInt(points.size())));
-			clusters.add(cluster);
+		switch (strategy) {
+
+		case FORKJOIN:
+			break;
+
+		case PARALLEL:
+			runInParallel(points, k, iterations);
+			break;
+
+		case SEQUENTIAL:
+			runSequentially(points, k, iterations);
+			break;
+
+		case STREAM:
+			break;
+
 		}
+
+	}
+
+	private void runSequentially(List<Point> points, int k, int iterations) {
+		// create clusters
+		createAndInitializeClusters(points, k);
 
 		for (int i = 1; i <= iterations; i++) {
 
@@ -54,8 +79,10 @@ public class KMeans {
 				}
 			}
 		}
+		printClusters();
+	}
 
-		// output
+	private void printClusters() {
 		for (Cluster cluster : clusters) {
 			System.out.println("This cluster contains " + cluster.getPoints().size() + " elements.");
 			System.out.println("Its elements are:");
@@ -64,7 +91,51 @@ public class KMeans {
 			}
 			System.out.println("");
 		}
+	}
 
+	private void runInParallel(List<Point> points, int k, int iterations) {
+
+		createAndInitializeClusters(points, k);
+
+		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+		for (int i = 1; i <= iterations; i++) {
+
+			System.out.println("Iteration " + i + "/" + iterations);
+
+			// for all datapoints calculate distance to centers
+			for (Point p : points) {
+
+				// create Callable that calculates Distances to cluster
+				// centroids
+				DistanceCalculationCallable callable = new DistanceCalculationCallable(p, clusters);
+
+				Future<List<Cluster>> future = executor.submit(callable);
+				try {
+					clusters = future.get();
+				} catch (InterruptedException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				}
+
+			}
+
+			for (Cluster cluster : clusters) {
+				cluster.updateCentroid();
+				if (i < iterations) {
+					cluster.clearPoints();
+				}
+			}
+		}
+
+		executor.shutdown();
+		try {
+			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		}
 	}
 
 	/**
@@ -90,4 +161,19 @@ public class KMeans {
 		return clusters;
 	}
 
+	/**
+	 * Create clusters with random data point as initial centroid
+	 * 
+	 * @param points
+	 *            data points to process
+	 * @param k
+	 *            amount of clusters
+	 */
+	private void createAndInitializeClusters(List<Point> points, int k) {
+		for (int i = 0; i < k; i++) {
+			Cluster cluster = new Cluster();
+			cluster.setCentroid(points.get(new Random().nextInt(points.size())));
+			clusters.add(cluster);
+		}
+	}
 }
