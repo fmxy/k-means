@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 import main.Cluster;
+import main.KMeans;
 import main.Point;
-import sequential.KMeans;
 
 public class ForkJoinKMeans extends KMeans {
 
