@@ -21,13 +21,8 @@ public class Main {
 
 		KMeans kmeans = new KMeans();
 
-		Random r = new Random();
-
-		for (int i = 0; i < n; i++) {
-			points.add(new Point(r.nextDouble(), r.nextDouble()));
-			// printPoints();
-		}
-
+		createRandomPoints(n);
+		
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
 
@@ -42,6 +37,19 @@ public class Main {
 
 		System.out.println("The algorithm ran " + time_s + " milliseconds");
 
+	}
+
+	/**
+	 * Generates random data points and fills list with them
+	 * @param n amount of points to be generated
+	 */
+	private static void createRandomPoints(int n) {
+		Random r = new Random();
+
+		for (int i = 0; i < n; i++) {
+			points.add(new Point(r.nextDouble(), r.nextDouble()));
+			// printPoints();
+		}
 	}
 
 	private static void printPoints() {
