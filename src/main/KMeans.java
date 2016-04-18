@@ -44,8 +44,8 @@ public class KMeans {
 
 	private void runWithForkJoin(List<Point> points, int k, int iterations) {
 		
-		// TODO 
 		final ForkJoinPool fjp = new ForkJoinPool();
+		// TODO make a forkjointask for all 
 		
 	}
 
