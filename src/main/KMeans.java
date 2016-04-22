@@ -24,7 +24,7 @@ public class KMeans {
 		switch (strategy) {
 
 		case FORKJOIN:
-		//	runWithForkJoin(points,k,iterations);
+			// runWithForkJoin(points,k,iterations);
 			break;
 
 		case PARALLEL:
@@ -36,6 +36,7 @@ public class KMeans {
 			break;
 
 		case STREAM:
+			// add andrea ferretti github version?
 			break;
 
 		}
@@ -43,10 +44,10 @@ public class KMeans {
 	}
 
 	private void runWithForkJoin(List<Point> points, int k, int iterations) {
-		
+
 		final ForkJoinPool fjp = new ForkJoinPool();
-		// TODO make a forkjointask for all 
-		
+		// TODO make a forkjointask for all
+
 	}
 
 	private void runSequentially(List<Point> points, int k, int iterations) {

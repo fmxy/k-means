@@ -5,7 +5,6 @@ import java.util.concurrent.RecursiveTask;
 
 import main.Cluster;
 
-
 public class DistanceCalculationTask extends RecursiveTask<List<Cluster>> {
 
 	@Override
