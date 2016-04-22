@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +24,7 @@ public class KMeans {
 		switch (strategy) {
 
 		case FORKJOIN:
+		//	runWithForkJoin(points,k,iterations);
 			break;
 
 		case PARALLEL:
@@ -38,6 +40,13 @@ public class KMeans {
 
 		}
 
+	}
+
+	private void runWithForkJoin(List<Point> points, int k, int iterations) {
+		
+		final ForkJoinPool fjp = new ForkJoinPool();
+		// TODO make a forkjointask for all 
+		
 	}
 
 	private void runSequentially(List<Point> points, int k, int iterations) {
