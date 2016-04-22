@@ -77,9 +77,14 @@ public class KMeans {
 					}
 				}
 				// assign point to cluster
-				// TODO: catch nullpointer
-				nearestCluster.addPoint(p);
+				try {
+					nearestCluster.addPoint(p);
+				} catch (NullPointerException E) {
+					System.err.println(E.getMessage());
+				}
+
 			}
+
 			for (Cluster cluster : clusters) {
 				cluster.updateCentroid();
 				if (i < iterations) {

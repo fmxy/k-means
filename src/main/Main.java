@@ -1,9 +1,12 @@
 package main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import util.RunStrategy;
 
@@ -17,12 +20,17 @@ public class Main {
 	static int k = 10;
 	static int iterations = 100;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 
 		KMeans kmeans = new KMeans();
 
+		// parsing
+		// TODO: create csv file
+
+		// parseCSVFile();
+
 		createRandomPoints(n);
-		
+
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
 
@@ -39,9 +47,25 @@ public class Main {
 
 	}
 
+	private static void parseCSVFile() throws FileNotFoundException {
+		try (Scanner scanner = new Scanner(new File("/path/to/csv"))) {
+
+			scanner.useDelimiter(",");
+
+			while (scanner.hasNext()) {
+				System.out.println(scanner.next());
+			}
+
+			// scanner will be closed automatically in a try with resources
+			// block
+		}
+	}
+
 	/**
 	 * Generates random data points and fills list with them
-	 * @param n amount of points to be generated
+	 * 
+	 * @param n
+	 *            amount of points to be generated
 	 */
 	private static void createRandomPoints(int n) {
 		Random r = new Random();
