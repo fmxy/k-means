@@ -11,8 +11,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import main.Cluster;
+import main.KMeans;
 import main.Point;
-import sequential.KMeans;
 import util.RunStrategy;
 
 public class KMeansTests {

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import sequential.KMeans;
 import util.RunStrategy;
 
 public class Main {

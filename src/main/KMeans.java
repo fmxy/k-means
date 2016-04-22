@@ -1,4 +1,4 @@
-package sequential;
+package main;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,8 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import main.Cluster;
-import main.Point;
 import parallel.DistanceCalculationCallable;
 import util.RunStrategy;
 
