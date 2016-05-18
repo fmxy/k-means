@@ -19,13 +19,13 @@ public class Main {
 	static int n = 10000;
 	static int k = 10;
 	static int iterations = 100;
+	static String filePath = "/home/frederik/git/k-means/points.csv";
 
 	public static void main(String[] args) throws FileNotFoundException {
 
 		KMeans kmeans = new KMeans();
 
 		// parsing
-		// TODO: create csv file
 
 		// parseCSVFile();
 
@@ -47,8 +47,9 @@ public class Main {
 
 	}
 
+	// TODO: fix loop
 	private static void parseCSVFile() throws FileNotFoundException {
-		try (Scanner scanner = new Scanner(new File("/path/to/csv"))) {
+		try (Scanner scanner = new Scanner(new File(filePath))) {
 
 			scanner.useDelimiter(",");
 
