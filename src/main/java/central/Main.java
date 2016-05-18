@@ -19,7 +19,7 @@ public class Main {
 	static int n = 10000;
 	static int k = 10;
 	static int iterations = 100;
-	static String filePath = "/home/frederik/git/k-means/points.csv";
+	static String filePath = "points.csv";
 
 	public static void main(String[] args) throws FileNotFoundException {
 
@@ -27,7 +27,7 @@ public class Main {
 
 		// parsing
 
-		// parseCSVFile();
+		parseCSVFile();
 
 		createRandomPoints(n);
 
@@ -47,19 +47,24 @@ public class Main {
 
 	}
 
-	// TODO: fix loop
+	// TODO: change to use CSVParser from opencsv or apache commons library
+	// TODO: store points in data structure
 	private static void parseCSVFile() throws FileNotFoundException {
-		try (Scanner scanner = new Scanner(new File(filePath))) {
+		Scanner scanner = new Scanner(new File(filePath));
 
-			scanner.useDelimiter(",");
+		scanner.useDelimiter(",");
 
-			while (scanner.hasNext()) {
-				System.out.println(scanner.next());
-			}
+		while (scanner.hasNext()) {
+			System.out.println(scanner.next());
 
-			// scanner will be closed automatically in a try with resources
-			// block
+			/*
+			 * store data in list parse for line breaks in order to recognize
+			 * amount of variables would probably be easier with library
+			 * CSVParser depends on
+			 */
 		}
+
+		scanner.close();
 	}
 
 	/**
