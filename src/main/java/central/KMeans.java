@@ -39,7 +39,21 @@ public class KMeans {
 			// add andrea ferretti github version?
 			break;
 
+		case REDUCEMAP:
+			runReduceMap(points, k, iterations);
+			break;
+
 		}
+
+	}
+
+	private void runReduceMap(List<Point> points, int k, int iterations) {
+
+		createAndInitializeClusters(points, k);
+
+		/*
+		 * Sum while(i < iterations){ Divide Reassign Sum }
+		 */
 
 	}
 
