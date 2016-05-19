@@ -12,7 +12,6 @@ BUT: Synchronization step
 
 For problems, see chapter 11.1, 'Structured Parallel Programming' by McCool, Robison, Reinders 
 
-__________________________________________________________________________________________________________________________________
 
 Rule 2: Implement Concurrency at the Highest Level Possible
 
@@ -26,3 +25,23 @@ Least highest level would be to open up a thread for each point in the list (as 
 
 -> points should be split into n equally sized sublists and processed by n threads
 -> sync step needed in order to update centroids
+
+Rule 3: Plan Early for Scalability to Take Advantage of Increasing Numbers of Cores
+
+plan for the use of extra threads on extra cores
+
+If the amount of sublists (see rule 2) is to be decided by the amount available cores, the amount of threads is also decided by that number.
+If the amount of sublists is to be decided by the amount of clusters (k), there can't be an adjustment in number of threads for workstations with more cores.
+
+-> Number of available cores seems to be the best solution to this problem
+
+Rule 4: Make Use of Thread-Safe Libraries Whereever Possible
+
+'it's never a good idea to "reinvent the wheel"'
+-> Use opencsv CSVParser
+
+check thread-safety of used libraries
+-> reading the csv file happens before the concurrent algorithm starts and is not planned to be done in parallel
+-> libraries used in the calculation of the clusters have to be checked (mostly set-based libraries)
+
+
