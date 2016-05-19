@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.opencsv.CSVParser;
+
 import util.RunStrategy;
 
 public class Main {
@@ -51,10 +53,8 @@ public class Main {
 	// TODO: store points in data structure
 	private static void parseCSVFile() throws FileNotFoundException {
 
-		CSVParser parser = CSVParser.parse(new File(filePath), CSVFormat.EXCEL);
-		for (CSVRecord csvRecord : parser) {
-			System.out.println(csvRecord);
-		}
+		// create opencsv CSVParser with comma separator
+		CSVParser parser = new CSVParser(',');
 
 		Scanner scanner = new Scanner(new File(filePath));
 
