@@ -11,3 +11,18 @@ Point Assignment: Each point can be assigned to the cluster containing the close
 BUT: Synchronization step
 
 For problems, see chapter 11.1, 'Structured Parallel Programming' by McCool, Robison, Reinders 
+
+__________________________________________________________________________________________________________________________________
+
+Rule 2: Implement Concurrency at the Highest Level Possible
+
+bottom-up/top-down
+computational hostspots: distance calculation
+Highest level: 
+We want to have seperate test runs, so we always consider one data points file and run strategy to take advantage of all cores,
+so we won't parallelize here already.
+Next highest level could be to split the list of points into n sublists(e.g. by number of cores). Not splitting the list at all equal the sequential version.
+Least highest level would be to open up a thread for each point in the list (as it is done in the first version of my implementation)
+
+-> points should be split into n equally sized sublists and processed by n threads
+-> sync step needed in order to update centroids
