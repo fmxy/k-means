@@ -44,4 +44,32 @@ check thread-safety of used libraries
 -> reading the csv file happens before the concurrent algorithm starts and is not planned to be done in parallel
 -> libraries used in the calculation of the clusters have to be checked (mostly set-based libraries)
 
+Rule 5: Use the Right Threading Model
+
+OpenMP recommendation
+akka.io
+
+Rule 6: Never Assume a Particular Order of Execution
+
+'execution order of threads is non-deterministic' !
+'Don't try to enforce a particular order of execution unless it its absolutely necessary.'
+
+Rule 7: Use Thread-Local Storage Whenever Possible or Associate Locks to Specific Data
+
+'Synchronization is a neccesary evil'
+-> keep it to a minimum by using thread-local storage
+shared updates as infrequently as possible (centroid update: is necessary after every iteration)
+-> thread-local storage APIs
+Be careful with locks
+
+Rule 8: Dare to Change the Algorithm for a Better Chance of Concurrency
+
+-> interesting example of Matrix Multiplication Divide & Conquer Method
+'When the submatrices achieve a given size, switch to a serial algorithm.'
+
+other approach:
+divide by rows/columns/blocks
+
+-> divide list of points; note that k-means requires intermediate synchronization and matrix multiplication only has one merge step
+
 
