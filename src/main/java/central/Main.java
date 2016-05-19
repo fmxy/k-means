@@ -36,7 +36,7 @@ public class Main {
 
 		// very simple form of time measurement (doesn't measure initialization
 		// phase, as well)
-		// beware of JVM cashing
+		// beware of JVM cashing, garbage collection
 
 		// sequential
 		long start_s = System.currentTimeMillis();
@@ -50,12 +50,20 @@ public class Main {
 	// TODO: change to use CSVParser from opencsv or apache commons library
 	// TODO: store points in data structure
 	private static void parseCSVFile() throws FileNotFoundException {
+
+		CSVParser parser = CSVParser.parse(new File(filePath), CSVFormat.EXCEL);
+		for (CSVRecord csvRecord : parser) {
+			System.out.println(csvRecord);
+		}
+
 		Scanner scanner = new Scanner(new File(filePath));
 
 		scanner.useDelimiter(",");
 
 		while (scanner.hasNext()) {
 			System.out.println(scanner.next());
+
+			// TODO: interface
 
 			/*
 			 * store data in list parse for line breaks in order to recognize
