@@ -1,0 +1,13 @@
+Following Clay Breshears 'The Art of Concurrency'
+
+Rule 1: Identify Truly Independent Computations
+
+Centroid Computatation: If all data points of a cluster are known, the sum  (parallel reduction) can and therefore the centroid of a cluster can be calculated separately (by division)
+
+Distance Calculation: Each points distance to cluster centroids can be calculated separately
+
+Point Assignment: Each point can be assigned to the cluster containing the closest cluster centroid separately
+
+BUT: Synchronization step
+
+For problems, see chapter 11.1, 'Structured Parallel Programming' by McCool, Robison, Reinders 
