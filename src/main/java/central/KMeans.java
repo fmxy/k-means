@@ -15,11 +15,11 @@ import util.RunStrategy;
 
 public class KMeans {
 
-	private List<Cluster> clusters = new LinkedList<Cluster>();
+	private static List<Cluster> clusters = new LinkedList<Cluster>();
 
 	// central method that runs the algorithm in a specific pattern according to
 	// the chosen strategy
-	public void run(List<Point> points, int k, int iterations, RunStrategy strategy) {
+	public static void run(List<Point> points, int k, int iterations, RunStrategy strategy) {
 
 		switch (strategy) {
 
@@ -47,7 +47,7 @@ public class KMeans {
 
 	}
 
-	private void runReduceMap(List<Point> points, int k, int iterations) {
+	private static void runReduceMap(List<Point> points, int k, int iterations) {
 
 		createAndInitializeClusters(points, k);
 
@@ -64,7 +64,7 @@ public class KMeans {
 
 	}
 
-	private void runSequentially(List<Point> points, int k, int iterations) {
+	private static void runSequentially(List<Point> points, int k, int iterations) {
 		// create clusters
 		createAndInitializeClusters(points, k);
 
@@ -106,10 +106,10 @@ public class KMeans {
 				}
 			}
 		}
-		printClusters();
+		// printClusters();
 	}
 
-	private void printClusters() {
+	private static void printClusters() {
 		for (Cluster cluster : clusters) {
 			System.out.println("This cluster contains " + cluster.getPoints().size() + " elements.");
 			System.out.println("Its elements are:");
@@ -120,7 +120,7 @@ public class KMeans {
 		}
 	}
 
-	private void runInParallel(List<Point> points, int k, int iterations) {
+	private static void runInParallel(List<Point> points, int k, int iterations) {
 
 		createAndInitializeClusters(points, k);
 
@@ -175,12 +175,12 @@ public class KMeans {
 	 *            Point 2
 	 * @return positive rounded distance value
 	 */
-	public double calculateDistance(Point p, Point c) {
+	public static double calculateDistance(Point p, Point c) {
 		// Math.sqrt returns POSITIVE rounded(!) square root
 		return Math.sqrt(sq(p.getX() - c.getX()) + sq(p.getY() - c.getY()));
 	}
 
-	public double sq(double x) {
+	public static double sq(double x) {
 		return x * x;
 	}
 
@@ -196,7 +196,7 @@ public class KMeans {
 	 * @param k
 	 *            amount of clusters
 	 */
-	private void createAndInitializeClusters(List<Point> points, int k) {
+	private static void createAndInitializeClusters(List<Point> points, int k) {
 		for (int i = 0; i < k; i++) {
 			Cluster cluster = new Cluster();
 			cluster.setCentroid(points.get(new Random().nextInt(points.size())));

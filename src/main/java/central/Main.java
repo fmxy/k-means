@@ -25,7 +25,7 @@ public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
-		KMeans kmeans = new KMeans();
+		final KMeans kmeans = new KMeans();
 
 		// parsing
 
@@ -44,17 +44,24 @@ public class Main {
 		// beware of JVM cashing, garbage collection
 
 		// sequential
-		System.out.println("Running the algorithm 5 times..");
-		long start_s = System.currentTimeMillis();
-		for (int i = 0; i < 5; i++) {
-			kmeans.run(points, k, iterations, RunStrategy.SEQUENTIAL);
+		benchmarkXRuns(5, RunStrategy.SEQUENTIAL);
+
+		// parallel
+		benchmarkXRuns(5, RunStrategy.PARALLEL);
+
+	}
+
+	private static void benchmarkXRuns(int runs, RunStrategy runStrategy) {
+		System.out.println("Running the" + runStrategy.toString() + "algorithm 5 times..");
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < runs; i++) {
+			KMeans.run(points, k, iterations, runStrategy);
 			// hint garbage collector to do a collection
 			System.gc();
 		}
-		long time_s = System.currentTimeMillis() - start_s;
-
-		System.out.println("The algorithm ran " + time_s / 5 + " milliseconds on average");
-
+		long time = System.currentTimeMillis() - start;
+		System.out.println("The " + runStrategy.toString() + " algorithm ran " + time / 5 + " milliseconds on average");
+		System.out.println(" ");
 	}
 
 	/**
