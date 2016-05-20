@@ -1,14 +1,14 @@
 package central;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
-import com.opencsv.CSVParser;
+import com.opencsv.CSVReader;
 
 import util.RunStrategy;
 
@@ -23,7 +23,7 @@ public class Main {
 	static int iterations = 100;
 	static String filePath = "points.csv";
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 
 		KMeans kmeans = new KMeans();
 
@@ -49,30 +49,33 @@ public class Main {
 
 	}
 
-	// TODO: change to use CSVParser from opencsv or apache commons library
-	// TODO: store points in data structure
-	private static void parseCSVFile() throws FileNotFoundException {
+	/**
+	 * reads csv file with data points and stores them in a data structure
+	 * 
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	private static void parseCSVFile() throws NumberFormatException, IOException {
+		// TODO: create list type interface
+		// TODO: adapt for arbitrary number of variables
 
-		// create opencsv CSVParser with comma separator
-		CSVParser parser = new CSVParser(',');
+		// create CSVReader object
+		CSVReader reader = new CSVReader(new FileReader("points.csv"), ',');
 
-		Scanner scanner = new Scanner(new File(filePath));
+		List<Point> readPoints = new ArrayList<Point>();
+		// read line by line
+		String[] record = null;
+		// skip header row
+		reader.readNext();
 
-		scanner.useDelimiter(",");
-
-		while (scanner.hasNext()) {
-			System.out.println(scanner.next());
-
-			// TODO: interface
-
-			/*
-			 * store data in list parse for line breaks in order to recognize
-			 * amount of variables would probably be easier with library
-			 * CSVParser depends on
-			 */
+		while ((record = reader.readNext()) != null) {
+			Point readPoint = new Point(Double.parseDouble(record[0]), Double.parseDouble(record[1]));
+			points.add(readPoint);
 		}
 
-		scanner.close();
+		reader.close();
+
+		System.out.println(points);
 	}
 
 	/**
