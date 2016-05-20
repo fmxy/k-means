@@ -36,16 +36,24 @@ public class Main {
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
 
+		// TODO: create a benchmark setting with run parameters for the
+		// different strategies
+
 		// very simple form of time measurement (doesn't measure initialization
 		// phase, as well)
 		// beware of JVM cashing, garbage collection
 
 		// sequential
+		System.out.println("Running the algorithm 5 times..");
 		long start_s = System.currentTimeMillis();
-		kmeans.run(points, k, iterations, RunStrategy.SEQUENTIAL);
+		for (int i = 0; i < 5; i++) {
+			kmeans.run(points, k, iterations, RunStrategy.SEQUENTIAL);
+			// hint garbage collector to do a collection
+			System.gc();
+		}
 		long time_s = System.currentTimeMillis() - start_s;
 
-		System.out.println("The algorithm ran " + time_s + " milliseconds");
+		System.out.println("The algorithm ran " + time_s / 5 + " milliseconds on average");
 
 	}
 
