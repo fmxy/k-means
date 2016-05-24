@@ -27,17 +27,14 @@ public class Main {
 
 		final KMeans kmeans = new KMeans();
 
-		// parsing
+		// parsing a a data set or creating random points is possible
 
 		parseCSVFile();
 
-		createRandomPoints(n);
+		// createRandomPoints(n);
 
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
-
-		// TODO: create a benchmark setting with run parameters for the
-		// different strategies
 
 		// very simple form of time measurement (doesn't measure initialization
 		// phase, as well)
@@ -89,11 +86,10 @@ public class Main {
 		while ((record = reader.readNext()) != null) {
 			Point readPoint = new Point(Double.parseDouble(record[0]), Double.parseDouble(record[1]));
 			points.add(readPoint);
+			// or: addPoint(Set<Point> list, Point) as interface method
 		}
 
 		reader.close();
-
-		System.out.println(points);
 	}
 
 	/**

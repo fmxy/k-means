@@ -26,7 +26,7 @@ public class KMeans {
 		switch (strategy) {
 
 		case FORKJOIN:
-			// runWithForkJoin(points,k,iterations);
+			// runWithForkJoin(points, k, iterations);
 			break;
 
 		case PARALLEL:
