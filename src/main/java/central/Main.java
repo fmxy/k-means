@@ -47,12 +47,14 @@ public class Main {
 		benchmarkXRuns(5, RunStrategy.SEQUENTIAL);
 
 		// parallel
-		benchmarkXRuns(5, RunStrategy.PARALLEL);
+		// benchmarkXRuns(5, RunStrategy.PARALLEL);
+
+		KMeans.run(points, k, iterations, RunStrategy.REDUCEMAP);
 
 	}
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy) {
-		System.out.println("Running the" + runStrategy.toString() + "algorithm 5 times..");
+		System.out.println("Running the " + runStrategy.toString().toLowerCase() + "algorithm 5 times..");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < runs; i++) {
 			KMeans.run(points, k, iterations, runStrategy);
@@ -60,7 +62,8 @@ public class Main {
 			System.gc();
 		}
 		long time = System.currentTimeMillis() - start;
-		System.out.println("The " + runStrategy.toString() + " algorithm ran " + time / 5 + " milliseconds on average");
+		System.out.println("The " + runStrategy.toString().toLowerCase() + " algorithm ran " + time / 5
+				+ " milliseconds on average");
 		System.out.println(" ");
 	}
 

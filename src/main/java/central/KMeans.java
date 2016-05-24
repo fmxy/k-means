@@ -10,6 +10,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.Lists;
+
 import threadbased.DistanceCalculationCallable;
 import util.RunStrategy;
 
@@ -51,6 +53,21 @@ public class KMeans {
 
 		createAndInitializeClusters(points, k);
 
+		// Eight Simple Rules:
+		// Split point list into sub-lists (watch out for views and real
+		// sub-lists
+		int n = Runtime.getRuntime().availableProcessors();
+		// use guava to split list
+		List<List<Point>> sublists = Lists.partition(points, points.size() / n);
+
+		// process sub-lists in multiple threads, join
+		for (List<Point> sublist : sublists) {
+			// new MappingRunnable
+			// -> probably reimplementing fork join here
+			System.out.println(sublist.size());
+		}
+
+		// Structured Parallel Programming approach:
 		/*
 		 * Sum while(i < iterations){ Divide Reassign Sum }
 		 */
