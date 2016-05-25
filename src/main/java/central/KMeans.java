@@ -2,7 +2,6 @@ package central;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -206,7 +205,8 @@ public class KMeans {
 	}
 
 	/**
-	 * Create clusters with random data point as initial centroid
+	 * Create clusters with first k data points as initial centroids (as points
+	 * have been created randomly, this is considered to be OK)
 	 * 
 	 * @param points
 	 *            data points to process
@@ -216,7 +216,10 @@ public class KMeans {
 	private static void createAndInitializeClusters(List<Point> points, int k) {
 		for (int i = 0; i < k; i++) {
 			Cluster cluster = new Cluster();
-			cluster.setCentroid(points.get(new Random().nextInt(points.size())));
+
+			// using the first k list elements; use 'new
+			// Random().nextInt(points.size())' instead of i for random points
+			cluster.setCentroid(points.get(i));
 			clusters.add(cluster);
 		}
 	}
