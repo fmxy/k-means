@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +11,7 @@ import org.junit.Test;
 
 import central.Cluster;
 import central.KMeans;
+import central.Main;
 import central.Point;
 import util.RunStrategy;
 
@@ -26,10 +28,7 @@ public class KMeansTests {
 	public static void setupBeforeClass() {
 		Random r = new Random();
 
-		for (int i = 0; i < n; i++) {
-			points.add(new Point(r.nextDouble(), r.nextDouble()));
-			// printPoints();
-		}
+		points = Main.createRandomPoints(n);
 		kmeans.run(points, k, iterations, RunStrategy.SEQUENTIAL);
 		// kmeans.run(points, k, iterations, RunStrategy.PARALLEL);
 	}
@@ -94,6 +93,18 @@ public class KMeansTests {
 
 		assertTrue(!fail);
 
+	}
+
+	@Test
+	public void createRandomPointsCreatesPoints() {
+		points = Main.createRandomPoints(100);
+		assertTrue(!points.isEmpty());
+	}
+
+	@Test
+	public void parseCSVFileCreatesPoints() throws NumberFormatException, IOException {
+		points = Main.parseCSVFile();
+		assertTrue(!points.isEmpty());
 	}
 
 }

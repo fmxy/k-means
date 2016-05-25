@@ -29,9 +29,9 @@ public class Main {
 
 		// parsing a a data set or creating random points is possible
 
-		parseCSVFile();
+		points = parseCSVFile();
 
-		// createRandomPoints(n);
+		// points = createRandomPoints(n);
 
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
@@ -65,12 +65,12 @@ public class Main {
 	}
 
 	/**
-	 * reads csv file with data points and stores them in a data structure
+	 * reads csv file with data points and returns a list of these points
 	 * 
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-	private static void parseCSVFile() throws NumberFormatException, IOException {
+	public static List<Point> parseCSVFile() throws NumberFormatException, IOException {
 		// TODO: create list type interface
 		// TODO: adapt for arbitrary number of variables
 
@@ -85,11 +85,13 @@ public class Main {
 
 		while ((record = reader.readNext()) != null) {
 			Point readPoint = new Point(Double.parseDouble(record[0]), Double.parseDouble(record[1]));
-			points.add(readPoint);
+			// System.out.println("Adding Point " readPoint.toString());
+			readPoints.add(readPoint);
 			// or: addPoint(Set<Point> list, Point) as interface method
 		}
 
 		reader.close();
+		return readPoints;
 	}
 
 	/**
@@ -98,13 +100,14 @@ public class Main {
 	 * @param n
 	 *            amount of points to be generated
 	 */
-	private static void createRandomPoints(int n) {
+	public static List<Point> createRandomPoints(int n) {
 		Random r = new Random();
-
+		List<Point> points = new ArrayList<Point>();
 		for (int i = 0; i < n; i++) {
 			points.add(new Point(r.nextDouble(), r.nextDouble()));
-			// printPoints();
 		}
+		// printPoints();
+		return points;
 	}
 
 	private static void printPoints() {
