@@ -53,13 +53,14 @@ public class KMeans {
 		createAndInitializeClusters(points, k);
 
 		// Eight Simple Rules:
-		// Split point list into sub-lists (watch out for views and real
-		// sub-lists
+		// Split point list into sublists (watch out for views and real
+		// sublists)
 		int n = Runtime.getRuntime().availableProcessors();
 		// use guava to split list
 		List<List<Point>> sublists = Lists.partition(points, points.size() / n);
 
-		// process sub-lists in multiple threads, join
+		// process sublists in multiple threads, join
+		System.out.println("Created sublists have the following sizes:");
 		for (List<Point> sublist : sublists) {
 			// new MappingRunnable
 			// -> probably reimplementing fork join here
@@ -122,6 +123,7 @@ public class KMeans {
 				}
 			}
 		}
+		System.out.println(" ");
 		// printClusters();
 	}
 
@@ -173,6 +175,7 @@ public class KMeans {
 				}
 			}
 		}
+		System.out.println(" ");
 
 		executor.shutdown();
 		try {

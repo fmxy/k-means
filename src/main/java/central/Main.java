@@ -44,18 +44,22 @@ public class Main {
 		benchmarkXRuns(5, RunStrategy.SEQUENTIAL);
 
 		// parallel
-		// benchmarkXRuns(5, RunStrategy.PARALLEL);
+		benchmarkXRuns(5, RunStrategy.PARALLEL);
 
+		// reducemap
+		System.out.println("Running the reducemap algorithm..");
+		System.out.println(" ");
 		KMeans.run(points, k, iterations, RunStrategy.REDUCEMAP);
-
 	}
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy) {
-		System.out.println("Running the " + runStrategy.toString().toLowerCase() + "algorithm 5 times..");
+		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm 5 times..");
+		System.out.println(" ");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < runs; i++) {
 			KMeans.run(points, k, iterations, runStrategy);
 			// hint garbage collector to do a collection
+			// TODO
 			System.gc();
 		}
 		long time = System.currentTimeMillis() - start;
