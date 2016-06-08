@@ -58,6 +58,7 @@ public class KMeans {
 		// Eight Simple Rules:
 		// Split point list into sublists (watch out for views and real
 		// sublists)
+
 		int n = Runtime.getRuntime().availableProcessors();
 		// use guava to split list
 		List<List<Point>> sublists = Lists.partition(points, points.size() / n);
@@ -65,20 +66,14 @@ public class KMeans {
 		// process sublists in multiple threads, join
 		System.out.println("Created subsets have the following sizes:");
 		for (List<Point> sublist : sublists) {
-			// new MappingRunnable
-			// -> probably reimplementing fork join here
 
 			// create hashmultiset
-			Multiset hashMultiset = HashMultiset.create(sublist);
+			Multiset hashMultiset = HashMultiset.create();
+			// TODO: add loop that adds key(sublist) and value(cluster number)
 			System.out.println(hashMultiset.size());
 
 			MappingCallable mr = new MappingCallable(hashMultiset);
 		}
-
-		// Structured Parallel Programming approach:
-		/*
-		 * Sum while(i < iterations){ Divide Reassign Sum }
-		 */
 
 	}
 

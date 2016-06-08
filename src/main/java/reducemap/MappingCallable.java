@@ -15,6 +15,7 @@ public class MappingCallable implements Callable {
 	@Override
 	public Multiset call() {
 		// TODO: distance calculation, reassignment
+
 		return hashMultiset;
 	}
 
