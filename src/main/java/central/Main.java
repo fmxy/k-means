@@ -59,7 +59,7 @@ public class Main {
 		for (int i = 0; i < runs; i++) {
 			KMeans.run(points, k, iterations, runStrategy);
 			// hint garbage collector to do a collection
-			// TODO
+			// TODO: do this correctly
 			System.gc();
 		}
 		long time = System.currentTimeMillis() - start;

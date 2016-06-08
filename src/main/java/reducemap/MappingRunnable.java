@@ -1,13 +1,20 @@
 package reducemap;
 
+import java.util.List;
+
+import central.Point;
+
 public class MappingRunnable implements Runnable {
+
+	private List<Point> points;
+
+	public MappingRunnable(List<Point> sublist) {
+		points = sublist;
+	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		// calculate distance to cluster centroids and assign point to new
-		// cluster
-
+		// TODO process points; rethink data structure
 	}
 
 }

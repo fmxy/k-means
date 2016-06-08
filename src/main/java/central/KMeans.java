@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Lists;
 
+import reducemap.MappingRunnable;
 import threadbased.DistanceCalculationCallable;
 import util.RunStrategy;
 
@@ -64,6 +65,7 @@ public class KMeans {
 		for (List<Point> sublist : sublists) {
 			// new MappingRunnable
 			// -> probably reimplementing fork join here
+			MappingRunnable mr = new MappingRunnable(sublist);
 			System.out.println(sublist.size());
 		}
 
