@@ -13,7 +13,7 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 
-import reducemap.MappingRunnable;
+import reducemap.MappingCallable;
 import threadbased.DistanceCalculationCallable;
 import util.RunStrategy;
 
@@ -63,7 +63,7 @@ public class KMeans {
 		List<List<Point>> sublists = Lists.partition(points, points.size() / n);
 
 		// process sublists in multiple threads, join
-		System.out.println("Created sublists have the following sizes:");
+		System.out.println("Created subsets have the following sizes:");
 		for (List<Point> sublist : sublists) {
 			// new MappingRunnable
 			// -> probably reimplementing fork join here
@@ -72,7 +72,7 @@ public class KMeans {
 			Multiset hashMultiset = HashMultiset.create(sublist);
 			System.out.println(hashMultiset.size());
 
-			MappingRunnable mr = new MappingRunnable(sublist);
+			MappingCallable mr = new MappingCallable(hashMultiset);
 		}
 
 		// Structured Parallel Programming approach:
