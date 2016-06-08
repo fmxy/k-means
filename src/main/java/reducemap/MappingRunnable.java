@@ -15,6 +15,8 @@ public class MappingRunnable implements Runnable {
 	@Override
 	public void run() {
 		// TODO process points; rethink data structure
+		// distance calculation, reassignment
+		// return list -> Callable
 	}
 
 }

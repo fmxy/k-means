@@ -9,7 +9,9 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multiset;
 
 import reducemap.MappingRunnable;
 import threadbased.DistanceCalculationCallable;
@@ -65,8 +67,12 @@ public class KMeans {
 		for (List<Point> sublist : sublists) {
 			// new MappingRunnable
 			// -> probably reimplementing fork join here
+
+			// create hashmultiset
+			Multiset hashMultiset = HashMultiset.create(sublist);
+			System.out.println(hashMultiset.size());
+
 			MappingRunnable mr = new MappingRunnable(sublist);
-			System.out.println(sublist.size());
 		}
 
 		// Structured Parallel Programming approach:
