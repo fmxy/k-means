@@ -53,7 +53,7 @@ public class KMeans {
 
 	private static void runReduceMap(List<Point> points, int k, int iterations) {
 
-		createAndInitializeClusters(points, k);
+		List<Point> centroids = points.subList(0, k);
 
 		// Eight Simple Rules:
 		// Split point list into sublists (watch out for views and real
@@ -63,18 +63,26 @@ public class KMeans {
 		// use guava to split list
 		List<List<Point>> sublists = Lists.partition(points, points.size() / n);
 
+		// list of futures to catch result
+		List<Future<Multiset>> results;
+
 		// process sublists in multiple threads, join
-		System.out.println("Created subsets have the following sizes:");
+		System.out.println("Processing " + n + " sublists with the following sizes:");
 		for (List<Point> sublist : sublists) {
+			// calculate distances to have initial cluster assignments
 
 			// create hashmultiset
 			Multiset hashMultiset = HashMultiset.create();
+
 			// TODO: add loop that adds key(sublist) and value(cluster number)
 			System.out.println(hashMultiset.size());
 
 			MappingCallable mr = new MappingCallable(hashMultiset);
 		}
 
+		// recalculate centroids here as all elements across sublists must
+		// be considered (no local means)
+		// or: collect local means and join them (to global mean)
 	}
 
 	private void runWithForkJoin(List<Point> points, int k, int iterations) {
