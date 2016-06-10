@@ -23,7 +23,7 @@ public class Main {
 	static int iterations = 100;
 	static String filePath = "points.csv";
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
 
 		final KMeans kmeans = new KMeans();
 
@@ -52,7 +52,7 @@ public class Main {
 		KMeans.run(points, k, iterations, RunStrategy.REDUCEMAP);
 	}
 
-	private static void benchmarkXRuns(int runs, RunStrategy runStrategy) {
+	private static void benchmarkXRuns(int runs, RunStrategy runStrategy) throws InterruptedException {
 		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm 5 times..");
 		System.out.println(" ");
 		long start = System.currentTimeMillis();

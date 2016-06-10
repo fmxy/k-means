@@ -1,5 +1,6 @@
 package central;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -24,7 +25,8 @@ public class KMeans {
 
 	// central method that runs the algorithm in a specific pattern according to
 	// the chosen strategy
-	public static void run(List<Point> points, int k, int iterations, RunStrategy strategy) {
+	public static void run(List<Point> points, int k, int iterations, RunStrategy strategy)
+			throws InterruptedException {
 
 		switch (strategy) {
 
@@ -52,7 +54,11 @@ public class KMeans {
 
 	}
 
-	private static void runReduceMap(List<Point> points, int k, int iterations) {
+	private static void runReduceMap(List<Point> points, int k, int iterations) throws InterruptedException {
+
+		// try cached threadpool, as well
+		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		List<MappingCallable> callables = new ArrayList<MappingCallable>();
 
 		for (int i = 1; i <= iterations; i++) {
 
@@ -69,6 +75,9 @@ public class KMeans {
 			// use guava to split list
 			List<List<Point>> sublists = Lists.partition(points, points.size() / n);
 
+			// TODO: add loop that adds key(sublist) and value(cluster
+			// number)
+
 			// list of futures to catch result
 			List<Future<Multiset>> results;
 
@@ -78,6 +87,10 @@ public class KMeans {
 			System.out.println("Processing " + n + " multimaps");
 			for (List<Point> sublist : sublists) {
 				// calculate distances to have initial cluster assignments
+
+				// create hashmultiset
+				Multimap<Integer, Point> multimap = ArrayListMultimap.create();
+
 				for (Point p : sublist) {
 					double savedDistance = 100;
 
@@ -94,22 +107,25 @@ public class KMeans {
 						}
 						index++;
 					}
+					// assign point to cluster
+					multimap.put(clusterNumber, p);
+
+					// test
+					System.out.println(multimap.size());
 				}
-
+				callables.add(new MappingCallable(multimap));
 			}
-
-			// create hashmultiset
-			Multimap<Integer, List<Point>> multimap = ArrayListMultimap.create();
-
-			// TODO: add loop that adds key(sublist) and value(cluster
-			// number)
-
-			MappingCallable mr = new MappingCallable(multimap);
 		}
+
+		// get future result (process callables)
+		List<Future<Multimap>> results = executor.invokeAll(callables);
 
 		// recalculate centroids here as all elements across sublists must
 		// be considered (no local means)
 		// or: collect local means and join them (to global mean)
+
+		// revisit this
+		executor.shutdownNow();
 	}
 
 	private void runWithForkJoin(List<Point> points, int k, int iterations) {

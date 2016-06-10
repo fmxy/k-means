@@ -25,7 +25,7 @@ public class KMeansTests {
 	static int k = 10;
 
 	@BeforeClass
-	public static void setupBeforeClass() {
+	public static void setupBeforeClass() throws InterruptedException {
 		Random r = new Random();
 
 		points = Main.createRandomPoints(n);
