@@ -2,21 +2,21 @@ package reducemap;
 
 import java.util.concurrent.Callable;
 
-import com.google.common.collect.Multiset;
+import com.google.common.collect.Multimap;
 
 public class MappingCallable implements Callable {
 
-	private Multiset hashMultiset;
+	private Multimap multimap;
 
-	public MappingCallable(Multiset hashMultiset) {
-		this.hashMultiset = hashMultiset;
+	public MappingCallable(Multimap multimap) {
+		this.multimap = multimap;
 	}
 
 	@Override
-	public Multiset call() {
+	public Multimap call() {
 		// TODO: distance calculation, reassignment
 
-		return hashMultiset;
+		return multimap;
 	}
 
 }

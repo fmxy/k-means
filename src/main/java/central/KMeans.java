@@ -9,8 +9,9 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 
 import reducemap.MappingCallable;
@@ -53,6 +54,7 @@ public class KMeans {
 
 	private static void runReduceMap(List<Point> points, int k, int iterations) {
 
+		// threads need fast read-only access, updated after every iteration
 		List<Point> centroids = points.subList(0, k);
 
 		// Eight Simple Rules:
@@ -72,12 +74,12 @@ public class KMeans {
 			// calculate distances to have initial cluster assignments
 
 			// create hashmultiset
-			Multiset hashMultiset = HashMultiset.create();
+			Multimap<Integer, List<Point>> multimap = ArrayListMultimap.create();
 
 			// TODO: add loop that adds key(sublist) and value(cluster number)
-			System.out.println(hashMultiset.size());
+			System.out.println(multimap.size());
 
-			MappingCallable mr = new MappingCallable(hashMultiset);
+			MappingCallable mr = new MappingCallable(multimap);
 		}
 
 		// recalculate centroids here as all elements across sublists must
