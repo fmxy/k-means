@@ -117,7 +117,8 @@ public class KMeans {
 			}
 		}
 
-		// get future result (process callables)
+		// get future result (process callables); makes sure all futures are
+		// done
 		List<Future<Multimap>> results = executor.invokeAll(callables);
 
 		// recalculate centroids here as all elements across sublists must
