@@ -54,30 +54,55 @@ public class KMeans {
 
 	private static void runReduceMap(List<Point> points, int k, int iterations) {
 
-		// threads need fast read-only access, updated after every iteration
-		List<Point> centroids = points.subList(0, k);
+		for (int i = 1; i <= iterations; i++) {
 
-		// Eight Simple Rules:
-		// Split point list into sublists (watch out for views and real
-		// sublists)
+			System.out.println("Iteration " + i + "/" + iterations);
 
-		int n = Runtime.getRuntime().availableProcessors();
-		// use guava to split list
-		List<List<Point>> sublists = Lists.partition(points, points.size() / n);
+			// threads need fast read-only access, updated after every iteration
+			List<Point> centroids = points.subList(0, k);
 
-		// list of futures to catch result
-		List<Future<Multiset>> results;
+			// Eight Simple Rules:
+			// Split point list into sublists (watch out for views and real
+			// sublists)
 
-		// process sublists in multiple threads, join
-		System.out.println("Processing " + n + " sublists with the following sizes:");
-		for (List<Point> sublist : sublists) {
-			// calculate distances to have initial cluster assignments
+			int n = Runtime.getRuntime().availableProcessors();
+			// use guava to split list
+			List<List<Point>> sublists = Lists.partition(points, points.size() / n);
+
+			// list of futures to catch result
+			List<Future<Multiset>> results;
+
+			// global mean?
+
+			// process sublists in multiple threads, join
+			System.out.println("Processing " + n + " multimaps");
+			for (List<Point> sublist : sublists) {
+				// calculate distances to have initial cluster assignments
+				for (Point p : sublist) {
+					double savedDistance = 100;
+
+					// ugly
+					int clusterNumber = 0;
+
+					for (Point centroid : centroids) {
+						int index = 1;
+						double distance = calculateDistance(p, centroid);
+						// System.out.println("distance is: " + distance);
+						if (distance <= savedDistance) {
+							clusterNumber = index;
+							savedDistance = distance;
+						}
+						index++;
+					}
+				}
+
+			}
 
 			// create hashmultiset
 			Multimap<Integer, List<Point>> multimap = ArrayListMultimap.create();
 
-			// TODO: add loop that adds key(sublist) and value(cluster number)
-			System.out.println(multimap.size());
+			// TODO: add loop that adds key(sublist) and value(cluster
+			// number)
 
 			MappingCallable mr = new MappingCallable(multimap);
 		}
