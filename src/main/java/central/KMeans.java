@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
 
 import reducemap.MappingCallable;
 import threadbased.DistanceCalculationCallable;
@@ -79,9 +78,6 @@ public class KMeans {
 			// TODO: add loop that adds key(sublist) and value(cluster
 			// number)
 
-			// list of futures to catch result
-			List<Future<Multiset>> results;
-
 			// global mean?
 
 			// process sublists in multiple threads, join
@@ -97,19 +93,19 @@ public class KMeans {
 
 					// ugly
 					int clusterNumber = 0;
+					int index = 1;
 
 					for (Point centroid : centroids) {
-						int index = 1;
 						double distance = calculateDistance(p, centroid);
-						// System.out.println("distance is: " + distance);
+						System.out.println("distance is: " + distance);
 						if (distance <= savedDistance) {
 							clusterNumber = index;
 							savedDistance = distance;
 						}
 						index++;
+						// assign point to cluster
+						multimap.put(clusterNumber, p);
 					}
-					// assign point to cluster
-					multimap.put(clusterNumber, p);
 
 					// test
 					System.out.println(multimap.size());
@@ -121,14 +117,23 @@ public class KMeans {
 		// get future result (process callables); makes sure all futures are
 		// done
 		List<Future<Multimap>> futures = executor.invokeAll(callables);
+		List<Multimap> multimaps = new ArrayList<Multimap>();
 
 		for (Future<Multimap> future : futures) {
-			System.out.println(future.get());
+			multimaps.add(future.get());
 		}
 
 		// recalculate centroids here as all elements across sublists must
 		// be considered (no local means)
-		// or: collect local means and join them (to global mean)
+
+		for (Multimap m : multimaps) {
+			// get cluster elements by integer key and sum them up (->local
+			// means)
+
+			// empty clusters?
+			System.out.println(m.keySet().size());
+		}
+		// calculate global means
 
 		// revisit this
 		executor.shutdownNow();
