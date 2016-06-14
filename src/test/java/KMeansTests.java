@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class KMeansTests {
 	static int k = 10;
 
 	@BeforeClass
-	public static void setupBeforeClass() throws InterruptedException {
+	public static void setupBeforeClass() throws InterruptedException, ExecutionException {
 		Random r = new Random();
 
 		points = Main.createRandomPoints(n);

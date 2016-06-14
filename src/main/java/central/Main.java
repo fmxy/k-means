@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import com.opencsv.CSVReader;
 
@@ -23,7 +24,8 @@ public class Main {
 	static int iterations = 100;
 	static String filePath = "points.csv";
 
-	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
+	public static void main(String[] args)
+			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
 
 		final KMeans kmeans = new KMeans();
 
@@ -49,10 +51,12 @@ public class Main {
 		// reducemap
 		System.out.println("Running the reducemap algorithm..");
 		System.out.println(" ");
+
 		KMeans.run(points, k, iterations, RunStrategy.REDUCEMAP);
 	}
 
-	private static void benchmarkXRuns(int runs, RunStrategy runStrategy) throws InterruptedException {
+	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
+			throws InterruptedException, ExecutionException {
 		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm 5 times..");
 		System.out.println(" ");
 		long start = System.currentTimeMillis();
@@ -79,7 +83,7 @@ public class Main {
 		// TODO: adapt for arbitrary number of variables
 
 		// create CSVReader object
-		CSVReader reader = new CSVReader(new FileReader("points.csv"), ',');
+		CSVReader reader = new CSVReader(new FileReader(filePath), ',');
 
 		List<Point> readPoints = new ArrayList<Point>();
 		// read line by line

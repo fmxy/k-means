@@ -26,7 +26,7 @@ public class KMeans {
 	// central method that runs the algorithm in a specific pattern according to
 	// the chosen strategy
 	public static void run(List<Point> points, int k, int iterations, RunStrategy strategy)
-			throws InterruptedException {
+			throws InterruptedException, ExecutionException {
 
 		switch (strategy) {
 
@@ -54,7 +54,8 @@ public class KMeans {
 
 	}
 
-	private static void runReduceMap(List<Point> points, int k, int iterations) throws InterruptedException {
+	private static void runReduceMap(List<Point> points, int k, int iterations)
+			throws InterruptedException, ExecutionException {
 
 		// try cached threadpool, as well
 		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -119,7 +120,11 @@ public class KMeans {
 
 		// get future result (process callables); makes sure all futures are
 		// done
-		List<Future<Multimap>> results = executor.invokeAll(callables);
+		List<Future<Multimap>> futures = executor.invokeAll(callables);
+
+		for (Future<Multimap> future : futures) {
+			System.out.println(future.get());
+		}
 
 		// recalculate centroids here as all elements across sublists must
 		// be considered (no local means)

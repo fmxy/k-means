@@ -9,7 +9,7 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'application'
-mainClassName "central.Main.java"
+mainClassName= "central.Main.java"
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -30,4 +30,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile group: 'com.opencsv', name: 'opencsv', version: '3.7'
     compile group: 'com.google.guava',name: 'guava', version: '19.0'
+}
+
+defaultConfig {
+
+// Enabling multidex support.
+multiDexEnabled true
 }
