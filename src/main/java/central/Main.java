@@ -22,7 +22,7 @@ public class Main {
 	static int n = 10000;
 	static int k = 10;
 	static int iterations = 100;
-	static String filePath = "points.csv";
+	static String filePath = "points_10000.csv";
 
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
@@ -43,10 +43,10 @@ public class Main {
 		// beware of JVM cashing, garbage collection
 
 		// sequential
-		benchmarkXRuns(5, RunStrategy.SEQUENTIAL);
+		benchmarkXRuns(1, RunStrategy.SEQUENTIAL);
 
 		// parallel
-		benchmarkXRuns(5, RunStrategy.PARALLEL);
+		benchmarkXRuns(1, RunStrategy.PARALLEL);
 
 		// reducemap
 		System.out.println("Running the reducemap algorithm..");
@@ -57,7 +57,7 @@ public class Main {
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
 			throws InterruptedException, ExecutionException {
-		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm 5 times..");
+		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm " + runs + " times..");
 		System.out.println(" ");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < runs; i++) {

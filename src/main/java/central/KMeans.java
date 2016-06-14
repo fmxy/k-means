@@ -65,7 +65,9 @@ public class KMeans {
 			System.out.println("Iteration " + i + "/" + iterations);
 
 			// threads need fast read-only access, updated after every iteration
+			// that's a view!
 			List<Point> centroids = points.subList(0, k);
+			System.out.println(centroids.size());
 
 			// Eight Simple Rules:
 			// Split point list into sublists (watch out for views and real
