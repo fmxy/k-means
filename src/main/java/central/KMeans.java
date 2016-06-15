@@ -62,13 +62,13 @@ public class KMeans {
 		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		List<MappingCallable> callables = new ArrayList<MappingCallable>();
 
+		// threads need fast read-only access, updated after every iteration
+		// that's a view!
+		List<Point> centroids = points.subList(0, k);
+
 		for (int i = 1; i <= iterations; i++) {
 
 			System.out.println("Iteration " + i + "/" + iterations);
-
-			// threads need fast read-only access, updated after every iteration
-			// that's a view!
-			List<Point> centroids = points.subList(0, k);
 
 			// Eight Simple Rules: Split point list into sublists (watch out for
 			// views and real sublists)
@@ -82,7 +82,6 @@ public class KMeans {
 			for (List<Point> sublist : sublists) {
 				// calculate distances to have initial cluster assignments
 
-				// create hashmultiset
 				Multimap<Integer, Point> multimap = ArrayListMultimap.create();
 
 				for (Point p : sublist) {
@@ -108,60 +107,58 @@ public class KMeans {
 					// System.out.println("Assignment " + assignmentNumber);
 					assignmentNumber++;
 				}
-				callables.add(new MappingCallable(multimap));
+				callables.add(new MappingCallable(multimap, centroids));
 			}
-		}
 
-		// get future result (process callables); makes sure all futures are
-		// done
-		List<Future<Multimap>> futures = executor.invokeAll(callables);
-		List<Multimap<Integer, Point>> multimaps = new ArrayList<Multimap<Integer, Point>>();
+			// get future result (process callables); makes sure all futures are
+			// done
+			List<Future<Multimap>> futures = executor.invokeAll(callables);
+			List<Multimap<Integer, Point>> multimaps = new ArrayList<Multimap<Integer, Point>>();
 
-		for (Future<Multimap> future : futures) {
-			multimaps.add(future.get());
-		}
+			for (Future<Multimap> future : futures) {
+				multimaps.add(future.get());
+			}
 
-		// recalculate centroids here as all elements across sublists must
-		// be considered (no local means)
+			// recalculate centroids here as all elements across sublists must
+			// be considered (no local means)
 
-		// ugly
-		Multimap<Integer, Point> allLocalMeans = ArrayListMultimap.create();
-		for (Multimap<Integer, Point> m : multimaps) {
-			// get cluster elements by integer key and sum them up (->local
-			// means)
-			for (int keyNumber = 1; keyNumber <= k; keyNumber++) {
-				// get mean
+			// ugly
+			Multimap<Integer, Point> allLocalMeans = ArrayListMultimap.create();
+			for (Multimap<Integer, Point> m : multimaps) {
+				// get cluster elements by integer key and sum them up (->local
+				// means)
+				for (int keyNumber = 1; keyNumber <= k; keyNumber++) {
+					// get mean
+					double xsum = 0;
+					double ysum = 0;
+
+					Collection<Point> values = m.get(keyNumber);
+					for (Point p : values) {
+						xsum += p.getX();
+						ysum += p.getY();
+					}
+
+					Point localMean = new Point(xsum / values.size(), ysum / values.size());
+					allLocalMeans.put(keyNumber, localMean);
+				}
+			}
+
+			// calculate global means
+
+			for (int c = 0; c < n; c++) {
+
 				double xsum = 0;
 				double ysum = 0;
 
-				Collection<Point> values = m.get(keyNumber);
+				Collection<Point> values = allLocalMeans.get(c + 1);
 				for (Point p : values) {
 					xsum += p.getX();
 					ysum += p.getY();
 				}
 
-				Point localMean = new Point(xsum / values.size(), ysum / values.size());
-				allLocalMeans.put(keyNumber, localMean);
+				Point globalMean = new Point(xsum / values.size(), ysum / values.size());
+				System.out.println(globalMean.toString());
 			}
-		}
-
-		// calculate global means
-
-		for (int i = 0; i < n; i++) {
-			// build means from same index elements of all lists (maybe a
-			// stream?)
-
-			double xsum = 0;
-			double ysum = 0;
-
-			Collection<Point> values = allLocalMeans.get(i + 1);
-			for (Point p : values) {
-				xsum += p.getX();
-				ysum += p.getY();
-			}
-
-			Point globalMean = new Point(xsum / values.size(), ysum / values.size());
-			System.out.println(globalMean.toString());
 		}
 
 		// revisit this
