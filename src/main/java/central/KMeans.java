@@ -1,6 +1,7 @@
 package central;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -67,7 +68,6 @@ public class KMeans {
 			// threads need fast read-only access, updated after every iteration
 			// that's a view!
 			List<Point> centroids = points.subList(0, k);
-			System.out.println(centroids.size());
 
 			// Eight Simple Rules:
 			// Split point list into sublists (watch out for views and real
@@ -76,14 +76,10 @@ public class KMeans {
 			int n = Runtime.getRuntime().availableProcessors();
 			// use guava to split list
 			List<List<Point>> sublists = Lists.partition(points, points.size() / n);
-
-			// TODO: add loop that adds key(sublist) and value(cluster
-			// number)
-
-			// global mean?
+			int assignmentNumber = 1;
 
 			// process sublists in multiple threads, join
-			System.out.println("Processing " + n + " multimaps");
+			System.out.println("Split points into " + n + " sublists");
 			for (List<Point> sublist : sublists) {
 				// calculate distances to have initial cluster assignments
 
@@ -99,18 +95,18 @@ public class KMeans {
 
 					for (Point centroid : centroids) {
 						double distance = calculateDistance(p, centroid);
-						System.out.println("distance is: " + distance);
+						// System.out.println("distance is: " + distance);
 						if (distance <= savedDistance) {
 							clusterNumber = index;
 							savedDistance = distance;
 						}
 						index++;
-						// assign point to cluster
-						multimap.put(clusterNumber, p);
 					}
-
-					// test
-					System.out.println(multimap.size());
+					// assign point to cluster
+					System.out.println("Assigning point " + p.toString() + " to cluster " + clusterNumber);
+					multimap.put(clusterNumber, p);
+					System.out.println("Assignment " + assignmentNumber);
+					assignmentNumber++;
 				}
 				callables.add(new MappingCallable(multimap));
 			}
@@ -119,7 +115,7 @@ public class KMeans {
 		// get future result (process callables); makes sure all futures are
 		// done
 		List<Future<Multimap>> futures = executor.invokeAll(callables);
-		List<Multimap> multimaps = new ArrayList<Multimap>();
+		List<Multimap<Integer, Point>> multimaps = new ArrayList<Multimap<Integer, Point>>();
 
 		for (Future<Multimap> future : futures) {
 			multimaps.add(future.get());
@@ -128,12 +124,28 @@ public class KMeans {
 		// recalculate centroids here as all elements across sublists must
 		// be considered (no local means)
 
-		for (Multimap m : multimaps) {
+		List<Point> localMeans = new ArrayList<Point>();
+
+		for (Multimap<Integer, Point> m : multimaps) {
 			// get cluster elements by integer key and sum them up (->local
 			// means)
+			for (int keyNumber = 1; keyNumber <= k; keyNumber++) {
+				// get mean
+				double xsum = 0;
+				double ysum = 0;
 
-			// empty clusters?
-			System.out.println(m.keySet().size());
+				Collection<Point> values = m.get(keyNumber);
+				for (Point p : values) {
+					xsum += p.getX();
+					ysum += p.getY();
+				}
+
+				System.out.println(values.size());
+				Point localMean = new Point(xsum / values.size(), ysum / values.size());
+				System.out.println("Local mean of cluster " + keyNumber + " is: " + localMean.toString());
+				localMeans.add(localMean);
+			}
+
 		}
 		// calculate global means
 

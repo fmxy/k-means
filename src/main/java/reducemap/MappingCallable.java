@@ -16,8 +16,8 @@ public class MappingCallable implements Callable<Multimap> {
 	public Multimap call() {
 		// TODO: distance calculation, reassignment
 
-		System.out.println("Processing multimap..");
-		System.out.println("Calculating distance");
+		// System.out.println("Processing multimap..");
+		// System.out.println("Calculating distance");
 
 		return multimap;
 	}

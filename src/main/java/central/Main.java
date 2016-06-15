@@ -43,16 +43,16 @@ public class Main {
 		// beware of JVM cashing, garbage collection
 
 		// sequential
-		benchmarkXRuns(1, RunStrategy.SEQUENTIAL);
+		// benchmarkXRuns(1, RunStrategy.SEQUENTIAL);
 
 		// parallel
-		benchmarkXRuns(1, RunStrategy.PARALLEL);
+		// benchmarkXRuns(1, RunStrategy.PARALLEL);
 
 		// reducemap
 		System.out.println("Running the reducemap algorithm..");
 		System.out.println(" ");
 
-		KMeans.run(points, k, iterations, RunStrategy.REDUCEMAP);
+		KMeans.run(points, k, 1, RunStrategy.REDUCEMAP);
 	}
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
