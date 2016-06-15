@@ -58,6 +58,7 @@ public class KMeans {
 			throws InterruptedException, ExecutionException {
 
 		// try cached threadpool, as well
+		int n = Runtime.getRuntime().availableProcessors();
 		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		List<MappingCallable> callables = new ArrayList<MappingCallable>();
 
@@ -69,11 +70,9 @@ public class KMeans {
 			// that's a view!
 			List<Point> centroids = points.subList(0, k);
 
-			// Eight Simple Rules:
-			// Split point list into sublists (watch out for views and real
-			// sublists)
+			// Eight Simple Rules: Split point list into sublists (watch out for
+			// views and real sublists)
 
-			int n = Runtime.getRuntime().availableProcessors();
 			// use guava to split list
 			List<List<Point>> sublists = Lists.partition(points, points.size() / n);
 			int assignmentNumber = 1;
@@ -103,9 +102,10 @@ public class KMeans {
 						index++;
 					}
 					// assign point to cluster
-					System.out.println("Assigning point " + p.toString() + " to cluster " + clusterNumber);
+					// System.out.println("Assigning point " + p.toString() + "
+					// to cluster " + clusterNumber);
 					multimap.put(clusterNumber, p);
-					System.out.println("Assignment " + assignmentNumber);
+					// System.out.println("Assignment " + assignmentNumber);
 					assignmentNumber++;
 				}
 				callables.add(new MappingCallable(multimap));
@@ -124,8 +124,8 @@ public class KMeans {
 		// recalculate centroids here as all elements across sublists must
 		// be considered (no local means)
 
-		List<Point> localMeans = new ArrayList<Point>();
-
+		// ugly
+		Multimap<Integer, Point> allLocalMeans = ArrayListMultimap.create();
 		for (Multimap<Integer, Point> m : multimaps) {
 			// get cluster elements by integer key and sum them up (->local
 			// means)
@@ -140,14 +140,29 @@ public class KMeans {
 					ysum += p.getY();
 				}
 
-				System.out.println(values.size());
 				Point localMean = new Point(xsum / values.size(), ysum / values.size());
-				System.out.println("Local mean of cluster " + keyNumber + " is: " + localMean.toString());
-				localMeans.add(localMean);
+				allLocalMeans.put(keyNumber, localMean);
+			}
+		}
+
+		// calculate global means
+
+		for (int i = 0; i < n; i++) {
+			// build means from same index elements of all lists (maybe a
+			// stream?)
+
+			double xsum = 0;
+			double ysum = 0;
+
+			Collection<Point> values = allLocalMeans.get(i + 1);
+			for (Point p : values) {
+				xsum += p.getX();
+				ysum += p.getY();
 			}
 
+			Point globalMean = new Point(xsum / values.size(), ysum / values.size());
+			System.out.println(globalMean.toString());
 		}
-		// calculate global means
 
 		// revisit this
 		executor.shutdownNow();
