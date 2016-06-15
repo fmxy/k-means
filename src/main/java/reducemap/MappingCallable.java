@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 
 import com.google.common.collect.Multimap;
 
+import central.KMeans;
 import central.Point;
 
 public class MappingCallable implements Callable<Multimap> {
@@ -20,15 +21,35 @@ public class MappingCallable implements Callable<Multimap> {
 	@Override
 	public Multimap call() {
 
-		for (int i = 0; i < centroids.size(); i++) {
-			int j = 1;
+		int i = 1;
+		Point[] copy = multimap.get(i).toArray(new Point[0]);
 
-			for (Point p : multimap.get(j)) {
+		for (Point p : copy) {
+			int clusterNumber = 0;
+			int index = 1;
+
+			for (Point c : centroids) {
+
+				// clear
+				multimap.remove(i, p);
 
 				// calc distance and reassign
 
-				j++;
+				double savedDistance = 100;
+
+				// ugly
+
+				double distance = KMeans.calculateDistance(p, c);
+				// System.out.println("distance is: " + distance);
+				if (distance <= savedDistance) {
+					clusterNumber = index;
+					savedDistance = distance;
+				}
+				index++;
 			}
+			// assign point to cluster
+			multimap.put(clusterNumber, p);
+			i++;
 
 		}
 		return multimap;

@@ -22,7 +22,7 @@ public class Main {
 	static int n = 10000;
 	static int k = 10;
 	static int iterations = 100;
-	static String filePath = "points_10000.csv";
+	static String filePath = "points.csv";
 
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
@@ -52,7 +52,7 @@ public class Main {
 		System.out.println("Running the reducemap algorithm..");
 		System.out.println(" ");
 
-		KMeans.run(points, k, 1, RunStrategy.REDUCEMAP);
+		KMeans.run(points, k, 10, RunStrategy.REDUCEMAP);
 	}
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
