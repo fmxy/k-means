@@ -23,7 +23,7 @@ public class Main {
 	static int k = 10;
 	static int iterations = 100;
 	// default
-	static String filePath = "points.csv";
+	static String filePath = "points_10000000.csv";
 
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
@@ -52,16 +52,13 @@ public class Main {
 		// beware of JVM cashing, garbage collection
 
 		// sequential
-		// benchmarkXRuns(1, RunStrategy.SEQUENTIAL);
+		benchmarkXRuns(1, RunStrategy.SEQUENTIAL);
 
 		// parallel
 		// benchmarkXRuns(1, RunStrategy.PARALLEL);
 
 		// reducemap
-		System.out.println("Running the reducemap algorithm..");
-		System.out.println(" ");
-
-		KMeans.run(points, k, 10, RunStrategy.REDUCEMAP);
+		benchmarkXRuns(1, RunStrategy.REDUCEMAP);
 	}
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)

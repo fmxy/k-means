@@ -222,9 +222,6 @@ public class KMeans {
 			}
 		}
 
-		// testwise output
-		System.out.println(multimaps.get(1));
-		System.out.println(multimaps.get(2));
 		// revisit this
 		executor.shutdownNow();
 	}
