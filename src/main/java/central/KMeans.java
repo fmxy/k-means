@@ -155,7 +155,7 @@ public class KMeans {
 			}
 
 			Point globalMean = new Point(xsum / values.size(), ysum / values.size());
-			System.out.println(globalMean.toString());
+			// System.out.println(globalMean.toString());
 			centroids.add(globalMean);
 
 		}
