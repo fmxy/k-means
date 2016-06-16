@@ -22,10 +22,19 @@ public class Main {
 	static int n = 10000;
 	static int k = 10;
 	static int iterations = 100;
+	// default
 	static String filePath = "points.csv";
 
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
+
+		if (args.length > 0) {
+			if (args.length > 1) {
+				System.err.println("Too many arguments");
+			} else {
+				filePath = args[0];
+			}
+		}
 
 		final KMeans kmeans = new KMeans();
 
