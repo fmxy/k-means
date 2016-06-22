@@ -23,16 +23,19 @@ public class Main {
 	static int k = 10;
 	static int iterations = 100;
 	// default
-	static String filePath = "points_10000000.csv";
+	static String filePath = "points_10000.csv";
 
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
 
 		if (args.length > 0) {
+			filePath = args[0];
 			if (args.length > 1) {
-				System.err.println("Too many arguments");
+				k = Integer.parseInt(args[1]);
+			} else if (args.length > 2) {
+				iterations = Integer.parseInt(args[2]);
 			} else {
-				filePath = args[0];
+				System.err.println("Too many arguments");
 			}
 		}
 
