@@ -32,7 +32,8 @@ public class Main {
 			filePath = args[0];
 			if (args.length > 1) {
 				k = Integer.parseInt(args[1]);
-			} else if (args.length > 2) {
+			}
+			if (args.length > 2) {
 				iterations = Integer.parseInt(args[2]);
 			} else {
 				System.err.println("Too many arguments");
