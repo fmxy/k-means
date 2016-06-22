@@ -31,3 +31,9 @@ dependencies {
     compile group: 'com.opencsv', name: 'opencsv', version: '3.7'
     compile group: 'com.google.guava',name: 'guava', version: '19.0'
 }
+
+run{
+ if ( project.hasProperty("RunArgs") ) {
+        args Eval.me(RunArgs)
+    }
+}
