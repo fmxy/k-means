@@ -29,6 +29,7 @@ public class Main {
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
 
+		// read run parameters
 		if (args.length > 0) {
 			filePath = args[0];
 			if (args.length > 1) {
@@ -42,7 +43,7 @@ public class Main {
 		}
 
 		// parameter validity check
-		if (n < 2 || k < 1 || iterations < 1) {
+		if (n < 2 || k < 1 || iterations < 1 || k > n) {
 			System.err.println("Invalid Parameters");
 			throw new InvalidParameterException();
 		}
