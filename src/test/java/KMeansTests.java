@@ -78,6 +78,8 @@ public class KMeansTests {
 	 */
 	@Test
 	public void calculateDistanceIsCommutative() {
+		// creating explicit points as x and y could be the same by random
+		// selection
 		Point p1 = new Point(0.1337, 0.42);
 		Point p2 = new Point(0.18, 0.1303);
 
@@ -111,6 +113,12 @@ public class KMeansTests {
 	public void createRandomPointsCreatesPoints() {
 		points = Main.createRandomPoints(100);
 		assertTrue(!points.isEmpty());
+	}
+
+	@Test
+	public void createRandomPointsCreatesCorrectAmountOfPoints() {
+		points = Main.createRandomPoints(n);
+		assertTrue(points.size() == n);
 	}
 
 	@Test

@@ -35,10 +35,6 @@ public class StreamKMeans {
 		return choices.stream().collect(minBy((y1, y2) -> dist(x, y1) <= dist(x, y2) ? -1 : 1)).get();
 	}
 
-	public double sq(double x) {
-		return x * x;
-	}
-
 	public double dist(Point x, Point y) {
 		return x.minus(y).getModulus();
 	}
