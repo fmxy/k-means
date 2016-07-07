@@ -85,6 +85,17 @@ public class KMeansTests {
 		assertTrue(kmeans.calculateDistance(p1, p2) == kmeans.calculateDistance(p2, p1));
 	}
 
+	@Test
+	public void calculateDistanceValueIsPositiveOrZero() {
+		// creating random points
+		Random r = new Random();
+
+		Point p1 = new Point(r.nextDouble(), r.nextDouble());
+		Point p2 = new Point(r.nextDouble(), r.nextDouble());
+
+		assertTrue(kmeans.calculateDistance(p1, p2) >= 0);
+	}
+
 	// TODO: fill test logic
 	// @Test
 	public void parallelKMeansProducesSameSolutionAsSequentialKMeans() {

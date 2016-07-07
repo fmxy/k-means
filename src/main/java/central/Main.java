@@ -2,6 +2,7 @@ package central;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -38,6 +39,12 @@ public class Main {
 			} else {
 				System.err.println("Too many arguments");
 			}
+		}
+
+		// parameter validity check
+		if (n < 2 || k < 1 || iterations < 1) {
+			System.err.println("Invalid Parameters");
+			throw new InvalidParameterException();
 		}
 
 		final KMeans kmeans = new KMeans();
