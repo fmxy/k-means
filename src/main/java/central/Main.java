@@ -29,6 +29,8 @@ public class Main {
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
 
+		printIntro();
+
 		// read run parameters
 		if (args.length > 0) {
 			filePath = args[0];
@@ -64,13 +66,27 @@ public class Main {
 		// beware of JVM cashing, garbage collection
 
 		// sequential
-		benchmarkXRuns(1, RunStrategy.SEQUENTIAL);
+		// benchmarkXRuns(5, RunStrategy.SEQUENTIAL);
 
 		// parallel
 		// benchmarkXRuns(1, RunStrategy.PARALLEL);
 
 		// reducemap
-		benchmarkXRuns(1, RunStrategy.REDUCEMAP);
+		// benchmarkXRuns(1, RunStrategy.REDUCEMAP);
+
+		kmeans.run(points, k, iterations, RunStrategy.STREAM);
+	}
+
+	private static void printIntro() {
+
+		System.out.println("Welcome to this java-based k-means benchmark tool. ");
+		System.out.println("If you don't provide any run arguments, the default benchmark with " + n + " data points, "
+				+ k + " clusters and " + iterations + " iterations will be run.");
+		System.out.println("");
+
+		// Usage info
+		// Information about benchmark that is being run
+
 	}
 
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
@@ -80,6 +96,7 @@ public class Main {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < runs; i++) {
 			KMeans.run(points, k, iterations, runStrategy);
+			System.out.println(System.currentTimeMillis() - start);
 			// hint garbage collector to do a collection
 			// TODO: do this correctly
 			System.gc();

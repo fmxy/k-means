@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import reducemap.MappingCallable;
+import stream.StreamKMeans;
 import threadbased.DistanceCalculationCallable;
 import util.RunStrategy;
 
@@ -30,10 +30,6 @@ public class KMeans {
 
 		switch (strategy) {
 
-		case FORKJOIN:
-			// runWithForkJoin(points, k, iterations);
-			break;
-
 		case PARALLEL:
 			runInParallel(points, k, iterations);
 			break;
@@ -43,7 +39,7 @@ public class KMeans {
 			break;
 
 		case STREAM:
-			// add andrea ferretti github version?
+			runWithStreams(points, k, iterations);
 			break;
 
 		case REDUCEMAP:
@@ -226,13 +222,6 @@ public class KMeans {
 		executor.shutdownNow();
 	}
 
-	private void runWithForkJoin(List<Point> points, int k, int iterations) {
-
-		final ForkJoinPool fjp = new ForkJoinPool();
-		// TODO make a forkjointask for all
-
-	}
-
 	private static void runSequentially(List<Point> points, int k, int iterations) {
 		// create clusters
 		createAndInitializeClusters(points, k);
@@ -288,6 +277,15 @@ public class KMeans {
 			}
 			System.out.println("");
 		}
+	}
+
+	private static void runWithStreams(List<Point> points, int k, int iterations) {
+		final StreamKMeans streamKMeans = new StreamKMeans();
+		for (int i = 1; i <= iterations; i++) {
+			System.out.println("Iteration " + i + "/" + iterations);
+			streamKMeans.run(points);
+		}
+		// TODO: print clusters
 	}
 
 	private static void runInParallel(List<Point> points, int k, int iterations) {
