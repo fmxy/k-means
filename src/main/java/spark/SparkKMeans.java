@@ -1,8 +1,12 @@
 package spark;
 
-import java.util.Vector;
-
-import central.KMeans;
+import org.apache.spark.api.java.*;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.mllib.clustering.KMeans;
+import org.apache.spark.mllib.clustering.KMeansModel;
+import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
+import org.apache.spark.SparkConf;
 
 public class SparkKMeans {
 	public static void main(String[] args) {
