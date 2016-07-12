@@ -31,6 +31,7 @@ dependencies {
     compile group: 'com.opencsv', name: 'opencsv', version: '3.7'
     compile group: 'com.google.guava',name: 'guava', version: '19.0'
     compile group: 'org.apache.spark', name: 'spark-core_2.10', version: '1.6.2'
+    compile group: 'org.apache.spark', name: 'spark-mllib_2.10', version: '1.0.0'
 }
 
 run{
