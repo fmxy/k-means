@@ -127,4 +127,18 @@ public class KMeansTests {
 		assertTrue(!points.isEmpty());
 	}
 
+	/**
+	 * tests whether the benchmarking value of measured time is positive
+	 * 
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void timeProgresses() throws InterruptedException {
+		long start = System.currentTimeMillis();
+		Thread.sleep(30);
+		long time = System.currentTimeMillis() - start;
+		System.out.println(time);
+		assertTrue(time > 0);
+	}
+
 }

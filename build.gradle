@@ -32,6 +32,7 @@ dependencies {
     compile group: 'com.google.guava',name: 'guava', version: '19.0'
     compile group: 'org.apache.spark', name: 'spark-core_2.10', version: '1.6.2'
     compile group: 'org.apache.spark', name: 'spark-mllib_2.10', version: '1.0.0'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.9.2'
 }
 
 run{
