@@ -11,13 +11,16 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import com.opencsv.CSVReader;
+import com.sun.xml.internal.bind.marshaller.Messages;
 
+import util.ResultMessage;
 import util.RunStrategy;
 
 public class Main {
 
 	// choice of data structure might be crucial
 	static List<Point> points = new LinkedList<Point>();
+	static List<ResultMessage> msgs = new ArrayList<ResultMessage>();
 
 	// default values:
 
@@ -28,7 +31,7 @@ public class Main {
 	// number of iterations
 	static int iterations = 100;
 	// number of benchmark runs per strategy
-	static int runs = 1;
+	static int runs = 3;
 	// path to dataset
 	static String filePath = "points_10000.csv";
 
@@ -60,6 +63,11 @@ public class Main {
 
 		for (RunStrategy runStrategy : RunStrategy.values()) {
 			benchmarkXRuns(runs, runStrategy);
+		}
+
+		// print times
+		for (ResultMessage msg : msgs) {
+			msg.print();
 		}
 	}
 
@@ -118,7 +126,9 @@ public class Main {
 		System.out.println(" ");
 		System.out.println("The " + runStrategy.toString().toLowerCase() + " algorithm ran " + time / runs
 				+ " milliseconds on average");
+		msgs.add(new ResultMessage(runStrategy, time / runs));
 		System.out.println(" ");
+
 	}
 
 	/**
