@@ -19,12 +19,17 @@ public class Main {
 	// choice of data structure might be crucial
 	static List<Point> points = new LinkedList<Point>();
 
+	// default values:
+
 	// number of data points
 	static int n = 10000;
+	// number of clusters
 	static int k = 10;
+	// number of iterations
 	static int iterations = 100;
+	// number of benchmark runs per strategy
 	static int runs = 1;
-	// default
+	// path to dataset
 	static String filePath = "points_10000.csv";
 
 	public static void main(String[] args)
@@ -32,7 +37,33 @@ public class Main {
 
 		printIntro();
 
-		// read run parameters
+		readRunParameters(args);
+
+		// parameter validity check
+		if (n < 2 || k < 1 || iterations < 1 || k > n) {
+			System.err.println("Invalid k-means parameters; follow these restrictions:");
+			System.err.println("1 < n (number of data points) < k (number of clusters to be created)");
+			System.err.println("iterations > 0");
+			throw new InvalidParameterException();
+		}
+
+		final KMeans kmeans = new KMeans();
+
+		// parsing a a data set or creating random points is possible
+		// TODO: make it possible to choose
+		points = parseCSVFile();
+
+		// points = createRandomPoints(n);
+
+		// make list of points immutable
+		points = Collections.unmodifiableList(points);
+
+		for (RunStrategy runStrategy : RunStrategy.values()) {
+			benchmarkXRuns(runs, runStrategy);
+		}
+	}
+
+	private static void readRunParameters(String[] args) {
 		if (args.length > 0) {
 			filePath = args[0];
 			if (args.length > 1) {
@@ -44,42 +75,10 @@ public class Main {
 				System.err.println("Too many arguments");
 			}
 		}
-
-		// parameter validity check
-		if (n < 2 || k < 1 || iterations < 1 || k > n) {
-			System.err.println("Invalid Parameters");
-			throw new InvalidParameterException();
-		}
-
-		final KMeans kmeans = new KMeans();
-
-		// parsing a a data set or creating random points is possible
-
-		points = parseCSVFile();
-
-		// points = createRandomPoints(n);
-
-		// make list of points immutable
-		points = Collections.unmodifiableList(points);
-
-		// very simple form of time measurement (doesn't measure initialization
-		// phase, as well)
-		// beware of JVM cashing, garbage collection
-
-		// sequential
-		// benchmarkXRuns(runs, RunStrategy.SEQUENTIAL);
-
-		// parallel
-		// benchmarkXRuns(runs, RunStrategy.PARALLEL);
-
-		// reducemap
-		// benchmarkXRuns(runs, RunStrategy.REDUCEMAP);
-
-		kmeans.run(points, k, iterations, RunStrategy.STREAM);
 	}
 
 	/**
-	 * print intro message and gives information on run parameters
+	 * prints intro message and gives information on run parameters
 	 */
 	private static void printIntro() {
 
@@ -106,17 +105,17 @@ public class Main {
 	 */
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
 			throws InterruptedException, ExecutionException {
-		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm " + runs + " times..");
+		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm " + runs + " time(s)..");
 		System.out.println(" ");
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < runs; i++) {
 			KMeans.run(points, k, iterations, runStrategy);
-			System.out.println(System.currentTimeMillis() - start);
 			// hint garbage collector to do a collection
-			// TODO: do this correctly
 			System.gc();
 		}
+		// simple form of time measurement
 		long time = System.currentTimeMillis() - start;
+		System.out.println(" ");
 		System.out.println("The " + runStrategy.toString().toLowerCase() + " algorithm ran " + time / runs
 				+ " milliseconds on average");
 		System.out.println(" ");
@@ -175,5 +174,9 @@ public class Main {
 		for (Point p : points) {
 			System.out.println(p.toString());
 		}
+	}
+
+	private static void printCurrentTime() {
+		System.out.println("Current system time: " + System.currentTimeMillis());
 	}
 }

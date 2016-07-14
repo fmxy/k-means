@@ -1,7 +1,11 @@
 package util;
 
+/**
+ * Enum of the possible kmeans algorithm strategies
+ *
+ */
 public enum RunStrategy {
 
-	PARALLEL, SEQUENTIAL, FORKJOIN, STREAM, REDUCEMAP
+	SEQUENTIAL, STREAM, PARALLEL, REDUCEMAP
 
 }

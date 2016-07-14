@@ -141,4 +141,15 @@ public class KMeansTests {
 		assertTrue(time > 0);
 	}
 
+	@Test
+	public void negativeValuesWork() {
+
+		Point n1 = new Point(-0.453453245, -0.24534534);
+		Point n2 = new Point(0.453453245, 0.24534534);
+
+		Point p = new Point(0.34534534, 0.23424234);
+
+		assertTrue(kmeans.calculateDistance(n1, p) != kmeans.calculateDistance(n2, p));
+	}
+
 }

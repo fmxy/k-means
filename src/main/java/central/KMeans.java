@@ -218,7 +218,6 @@ public class KMeans {
 			}
 		}
 
-		// revisit this
 		executor.shutdownNow();
 	}
 
@@ -264,8 +263,7 @@ public class KMeans {
 				}
 			}
 		}
-		System.out.println(" ");
-		// printClusters();
+		// use printClusters(); to print cluster elements and current centroid
 	}
 
 	private static void printClusters() {
@@ -323,7 +321,6 @@ public class KMeans {
 				}
 			}
 		}
-		System.out.println(" ");
 
 		executor.shutdown();
 		try {

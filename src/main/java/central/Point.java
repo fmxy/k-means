@@ -1,19 +1,19 @@
 package central;
 
+/**
+ * two-dimensional data point with positive
+ * 
+ * @param x
+ *            first value
+ * @param y
+ *            second value
+ */
 public class Point {
 
 	// 2D coordinates of data point
 	double x;
 	double y;
 
-	/**
-	 * two-dimensional data point, consisting of:
-	 * 
-	 * @param x
-	 *            first value
-	 * @param y
-	 *            second value
-	 */
 	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -35,7 +35,6 @@ public class Point {
 		return Math.sqrt(sq(x) + sq(y));
 	}
 
-	// TODO: duplicate method in KMeans.java
 	private double sq(double x) {
 		return x * x;
 	}
