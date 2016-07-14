@@ -12,8 +12,8 @@ import central.Point;
 
 /**
  * This implementation is a sequential java 8 stream-based k-means algorithm.
- * Adapted from the code by evacchi added to the public k-means benchmark
- * repository github.com/andreaferretti/kmeans on 27/02/15
+ * Adapted from the code by github.com/evacchi added to the public k-means
+ * benchmark repository github.com/andreaferretti/kmeans on 27/02/15.
  */
 public class StreamKMeans {
 

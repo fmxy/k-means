@@ -23,6 +23,7 @@ public class Main {
 	static int n = 10000;
 	static int k = 10;
 	static int iterations = 100;
+	static int runs = 1;
 	// default
 	static String filePath = "points_10000.csv";
 
@@ -66,17 +67,20 @@ public class Main {
 		// beware of JVM cashing, garbage collection
 
 		// sequential
-		// benchmarkXRuns(5, RunStrategy.SEQUENTIAL);
+		// benchmarkXRuns(runs, RunStrategy.SEQUENTIAL);
 
 		// parallel
-		// benchmarkXRuns(1, RunStrategy.PARALLEL);
+		// benchmarkXRuns(runs, RunStrategy.PARALLEL);
 
 		// reducemap
-		// benchmarkXRuns(1, RunStrategy.REDUCEMAP);
+		// benchmarkXRuns(runs, RunStrategy.REDUCEMAP);
 
 		kmeans.run(points, k, iterations, RunStrategy.STREAM);
 	}
 
+	/**
+	 * print intro message and gives information on run parameters
+	 */
 	private static void printIntro() {
 
 		System.out.println("Welcome to this java-based k-means benchmark tool. ");
@@ -89,6 +93,17 @@ public class Main {
 
 	}
 
+	/**
+	 * runs the specified algorithm strategy a provided number of times and
+	 * prints the average running time
+	 * 
+	 * @param runs
+	 *            number of times the algorithm should run
+	 * @param runStrategy
+	 *            strategy specifying the algorithm
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
 	private static void benchmarkXRuns(int runs, RunStrategy runStrategy)
 			throws InterruptedException, ExecutionException {
 		System.out.println("Running the " + runStrategy.toString().toLowerCase() + " algorithm " + runs + " times..");
@@ -102,7 +117,7 @@ public class Main {
 			System.gc();
 		}
 		long time = System.currentTimeMillis() - start;
-		System.out.println("The " + runStrategy.toString().toLowerCase() + " algorithm ran " + time / 5
+		System.out.println("The " + runStrategy.toString().toLowerCase() + " algorithm ran " + time / runs
 				+ " milliseconds on average");
 		System.out.println(" ");
 	}
@@ -153,6 +168,9 @@ public class Main {
 		return points;
 	}
 
+	/**
+	 * prints all data points to console
+	 */
 	private static void printPoints() {
 		for (Point p : points) {
 			System.out.println(p.toString());
