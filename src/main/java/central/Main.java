@@ -31,7 +31,7 @@ public class Main {
 	// number of iterations
 	static int iterations = 100;
 	// number of benchmark runs per strategy
-	static int runs = 3;
+	static int runs = 1;
 	// path to dataset
 	static String filePath = "points_10000.csv";
 
@@ -79,6 +79,9 @@ public class Main {
 			}
 			if (args.length > 2) {
 				iterations = Integer.parseInt(args[2]);
+			}
+			if (args.length > 3) {
+				runs = Integer.parseInt(args[3]);
 			} else {
 				System.err.println("Too many arguments");
 			}
@@ -92,7 +95,7 @@ public class Main {
 
 		System.out.println("Welcome to this java-based k-means benchmark tool. ");
 		System.out.println("If you don't provide any run arguments, the default benchmark with " + n + " data points, "
-				+ k + " clusters and " + iterations + " iterations will be run.");
+				+ k + " clusters, " + iterations + " iteration(s) and " + runs + " run(s) per strategy will be run.");
 		System.out.println("");
 
 		// Usage info
