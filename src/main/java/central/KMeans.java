@@ -281,10 +281,8 @@ public class KMeans {
 
 	private static void runWithStreams(List<Point> points, int k, int iterations) {
 		final StreamKMeans streamKMeans = new StreamKMeans();
-		for (int i = 1; i <= iterations; i++) {
-			System.out.println("Iteration " + i + "/" + iterations);
-			streamKMeans.run(points);
-		}
+		streamKMeans.run(points, k, iterations);
+
 		// TODO: print clusters
 	}
 
