@@ -266,6 +266,7 @@ public class KMeans {
 		// use printClusters(); to print cluster elements and current centroid
 	}
 
+	@SuppressWarnings("unused")
 	private static void printClusters() {
 		for (Cluster cluster : clusters) {
 			System.out.println("This cluster contains " + cluster.getPoints().size() + " elements.");

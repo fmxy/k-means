@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import com.opencsv.CSVReader;
-import com.sun.xml.internal.bind.marshaller.Messages;
 
 import util.ResultMessage;
 import util.RunStrategy;
@@ -49,8 +48,6 @@ public class Main {
 			System.err.println("iterations > 0");
 			throw new InvalidParameterException();
 		}
-
-		final KMeans kmeans = new KMeans();
 
 		// parsing a a data set or creating random points is possible
 		// TODO: make it possible to choose
@@ -183,12 +180,14 @@ public class Main {
 	/**
 	 * prints all data points to console
 	 */
+	@SuppressWarnings("unused")
 	private static void printPoints() {
 		for (Point p : points) {
 			System.out.println(p.toString());
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void printCurrentTime() {
 		System.out.println("Current system time: " + System.currentTimeMillis());
 	}
