@@ -1,0 +1,22 @@
+import org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
+import org.apache.spark.mllib.linalg.Vectors
+
+// Load and parse the data
+val data = sc.textFile("data/points_100000.txt")
+val parsedData = data.map(s => Vectors.dense(s.split(' ').map(_.toDouble))).cache()
+
+// Cluster the data into two classes using KMeans
+val numClusters = 10
+val numIterations = 100
+
+// time measurement
+val t0 = java.lang.System.currentTimeMillis()
+
+val clusters = KMeans.train(parsedData, numClusters, numIterations)
+
+val t1 = java.lang.System.currentTimeMillis()
+
+val elapsedTime = (t1-t0)
+
+
+
