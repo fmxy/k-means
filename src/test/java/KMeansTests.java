@@ -98,17 +98,6 @@ public class KMeansTests {
 		assertTrue(kmeans.calculateDistance(p1, p2) >= 0);
 	}
 
-	// TODO: fill test logic
-	// @Test
-	public void parallelKMeansProducesSameSolutionAsSequentialKMeans() {
-		Boolean fail = false;
-
-		// check if points are in the same cluster
-
-		assertTrue(!fail);
-
-	}
-
 	@Test
 	public void createRandomPointsCreatesPoints() {
 		points = Main.createRandomPoints(100);

@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
+
+import org.hamcrest.core.IsNull;
 
 import com.opencsv.CSVReader;
 
@@ -33,6 +36,7 @@ public class Main {
 	static int runs = 1;
 	// path to dataset
 	static String filePath = "points_10000.csv";
+	static Optional<String> strategy = Optional.empty();
 
 	public static void main(String[] args)
 			throws NumberFormatException, IOException, InterruptedException, ExecutionException {
@@ -58,10 +62,15 @@ public class Main {
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
 
-		for (RunStrategy runStrategy : RunStrategy.values()) {
-			benchmarkXRuns(runs, runStrategy);
-		}
+		// running the strategy/strategies
+		if (strategy.isPresent()) {
+			parseAndExecuteStrategy(strategy);
+		} else {
 
+			for (RunStrategy runStrategy : RunStrategy.values()) {
+				benchmarkXRuns(runs, runStrategy);
+			}
+		}
 		// print times
 		for (ResultMessage msg : msgs) {
 			msg.print();
@@ -81,7 +90,11 @@ public class Main {
 				runs = Integer.parseInt(args[3]);
 			}
 			if (args.length > 4) {
-				System.err.println("Too many arguments");
+				strategy = Optional.of(args[4]);
+			}
+			if (args.length > 5) {
+				System.err.println("Too many arguments!");
+				System.exit(1);
 			}
 		}
 	}
@@ -94,6 +107,15 @@ public class Main {
 		System.out.println("Welcome to this java-based k-means benchmark tool. ");
 		System.out.println("If you don't provide any run arguments, the default benchmark with " + n + " data points, "
 				+ k + " clusters, " + iterations + " iteration(s) and " + runs + " run(s) per strategy will be run.");
+		System.out.println("");
+		System.out.println("You can provide the following arguments in this order:");
+		System.out.println("");
+		System.out.println("- file path to .csv data set containing two-dimensional data points");
+		System.out.println("- number of clusters");
+		System.out.println("- number of iterations");
+		System.out.println("- number of runs per strategy");
+		System.out.println(
+				"- strategy to be run, either 's' for sequential, 'str' for stream, 'pstr' for parallel stream, 'p1' for parallel, 'p2' for enhanced parallel version");
 		System.out.println("");
 
 		// Usage info
@@ -160,6 +182,37 @@ public class Main {
 
 		reader.close();
 		return readPoints;
+	}
+
+	private static void parseAndExecuteStrategy(Optional<String> strategy2)
+			throws InterruptedException, ExecutionException {
+		switch (strategy.get()) {
+
+		case "s":
+			benchmarkXRuns(runs, RunStrategy.SEQUENTIAL);
+			break;
+
+		case "str":
+			benchmarkXRuns(runs, RunStrategy.STREAM);
+			break;
+
+		case "pstr":
+			benchmarkXRuns(runs, RunStrategy.PARALLELSTREAM);
+			break;
+
+		case "p1":
+			benchmarkXRuns(runs, RunStrategy.PARALLEL);
+			break;
+
+		case "p2":
+			benchmarkXRuns(runs, RunStrategy.REDUCEMAP);
+			break;
+
+		default:
+			System.err.println("Unknown Key");
+			break;
+		}
+
 	}
 
 	/**
