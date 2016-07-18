@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import reducemap.MappingCallable;
+import stream.ParallelStreamKMeans;
 import stream.StreamKMeans;
 import threadbased.DistanceCalculationCallable;
 import util.RunStrategy;
@@ -40,6 +41,10 @@ public class KMeans {
 
 		case STREAM:
 			runWithStreams(points, k, iterations);
+			break;
+
+		case PARALLELSTREAM:
+			runWithParallelStreams(points, k, iterations);
 			break;
 
 		case REDUCEMAP:
@@ -281,6 +286,11 @@ public class KMeans {
 	private static void runWithStreams(List<Point> points, int k, int iterations) {
 		final StreamKMeans streamKMeans = new StreamKMeans();
 		streamKMeans.run(points, k, iterations);
+	}
+
+	private static void runWithParallelStreams(List<Point> points, int k, int iterations) {
+		final ParallelStreamKMeans parallelStreamKMeans = new ParallelStreamKMeans();
+		parallelStreamKMeans.run(points, k, iterations);
 	}
 
 	private static void runInParallel(List<Point> points, int k, int iterations) {

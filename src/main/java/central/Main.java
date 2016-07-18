@@ -79,7 +79,8 @@ public class Main {
 			}
 			if (args.length > 3) {
 				runs = Integer.parseInt(args[3]);
-			} else {
+			}
+			if (args.length > 4) {
 				System.err.println("Too many arguments");
 			}
 		}
