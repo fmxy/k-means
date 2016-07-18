@@ -79,7 +79,7 @@ public class KMeans {
 			Multimap<Integer, Point> multimap = ArrayListMultimap.create();
 
 			for (Point p : sublist) {
-				double savedDistance = 100;
+				double savedDistance = Double.MAX_VALUE;
 
 				// ugly
 				int clusterNumber = 0;
@@ -233,7 +233,7 @@ public class KMeans {
 			for (Point p : points) {
 
 				// ugly
-				double savedDistance = 100;
+				double savedDistance = Double.MAX_VALUE;
 				Cluster nearestCluster = null;
 
 				for (Cluster cluster : clusters) {
@@ -281,8 +281,6 @@ public class KMeans {
 	private static void runWithStreams(List<Point> points, int k, int iterations) {
 		final StreamKMeans streamKMeans = new StreamKMeans();
 		streamKMeans.run(points, k, iterations);
-
-		// TODO: print clusters
 	}
 
 	private static void runInParallel(List<Point> points, int k, int iterations) {

@@ -138,8 +138,8 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static List<Point> parseCSVFile() throws NumberFormatException, IOException {
-		// TODO: create list type interface
-		// TODO: adapt for arbitrary number of variables
+		// Future Work: create list type interface
+		// Future Work: adapt for arbitrary number of variables
 
 		// create CSVReader object
 		CSVReader reader = new CSVReader(new FileReader(filePath), ',');
