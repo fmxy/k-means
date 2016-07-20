@@ -22,7 +22,7 @@ public class DistanceCalculationCallable implements Callable<List<Cluster>> {
 
 	@Override
 	public List<Cluster> call() {
-		double savedDistance = 1000000;
+		double savedDistance = Double.MAX_VALUE;
 		Cluster nearestCluster = null;
 
 		for (Cluster cluster : clusters) {

@@ -35,7 +35,7 @@ public class MappingCallable implements Callable<Multimap> {
 
 				// calc distance and reassign
 
-				double savedDistance = 100;
+				double savedDistance = Double.MAX_VALUE;
 
 				// ugly
 
