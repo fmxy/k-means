@@ -246,6 +246,7 @@ public class KMeans {
 					Point clusterMean = cluster.getCentroid();
 
 					double distance = calculateDistance(p, clusterMean);
+					// ability to print distance using
 					// System.out.println("distance is: " + distance);
 					if (distance <= savedDistance) {
 						nearestCluster = cluster;

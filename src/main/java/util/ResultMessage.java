@@ -1,7 +1,8 @@
 package util;
 
 /**
- * prints the
+ * Utility class for storing a message of the time measurement that can be
+ * printed at any time.
  *
  */
 public class ResultMessage {

@@ -8,6 +8,7 @@ import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.SparkConf;
 
+// Unused! Spark is started from within a spark-shell using scala code (=java byte code)
 public class SparkKMeans {
 	public static void main(String[] args) {
 		SparkConf conf = new SparkConf().setAppName("K-means Example");
@@ -36,8 +37,6 @@ public class SparkKMeans {
 		double WSSSE = clusters.computeCost(parsedData.rdd());
 		System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
 
-		// Save and load model (not needed)
-		// clusters.save(sc.sc(), "myModelPath");
-		// KMeansModel sameModel = KMeansModel.load(sc.sc(), "myModelPath");
+		sc.close();
 	}
 }

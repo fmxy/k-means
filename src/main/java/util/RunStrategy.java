@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Enum of the possible kmeans algorithm strategies
+ * Enum of the possible k-means algorithm strategies
  *
  */
 public enum RunStrategy {

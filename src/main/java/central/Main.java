@@ -11,8 +11,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-import org.hamcrest.core.IsNull;
-
 import com.opencsv.CSVReader;
 
 import util.ResultMessage;
@@ -53,11 +51,9 @@ public class Main {
 			throw new InvalidParameterException();
 		}
 
-		// parsing a a data set or creating random points is possible
-		// TODO: make it possible to choose
+		// creating random points is also possible via
+		// createRandomPoints(n);
 		points = parseCSVFile();
-
-		// points = createRandomPoints(n);
 
 		// make list of points immutable
 		points = Collections.unmodifiableList(points);
