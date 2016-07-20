@@ -51,7 +51,8 @@ public class KMeansTests {
 
 	/*
 	 * check if distance from cluster points to cluster centroid is minimal
-	 * compared to other cluster centroids
+	 * compared to other cluster centroids. This is validation of the clustering
+	 * result being correct.
 	 */
 	@Test
 	public void clusterPointsBelongToCentroid() {
