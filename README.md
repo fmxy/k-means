@@ -1,5 +1,5 @@
 # k-means
-This repository holds experimental k-means implementations for now.
+This repository holds a command line tool for comparing JVM-based parallelizations of the k-means clustering algorithm.
 
 ### Command line argument usage:
 
